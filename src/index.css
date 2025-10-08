@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import "slick-carousel/slick/slick.css";
+
+@import "slick-carousel/slick/slick-theme.css";
+
+@theme {
+    --color-custom-blue: #ffffff; 
+}
+
+/* Table css */
+.admin_table {
+    text-align: center;
+}
