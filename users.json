@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "1234"
+    },
+    {
+      "id": "2",
+      "username": "narendra",
+      "password": "abcd"
+    },
+    {
+      "id": "ea8f",
+      "username": "My_Ecommerce",
+      "password": "1234"
+    }
+  ]
+}
