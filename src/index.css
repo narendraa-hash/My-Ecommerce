@@ -14,3 +14,7 @@
 .admin_table {
     text-align: center;
 }
+
+body {
+  font-style: italic;
+}

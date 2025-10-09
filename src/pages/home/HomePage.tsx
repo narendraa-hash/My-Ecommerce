@@ -18,6 +18,7 @@ function HomePage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const [inrAmount, setInrAmount] = useState("");
 
     // First, create a sorted copy of the products array to avoid mutating the original array
     // const sortedProducts = [...products].sort((a, b) => b.price - a.price);
@@ -39,7 +40,7 @@ function HomePage() {
     const randomProducts = shuffledProducts.slice(0, 4);
 
     const categories = [
-        {label: "👕 Men's Clothing", value: "men's clothing", bg: "bg-blue-100"},
+        {label: "👕 Men's Clothing", value: "men's clothing", bg: "bg-red-100"},
         {label: "👗 Women's Clothing", value: "women's clothing", bg: "bg-pink-100"},
         {label: "💍 Jewellery", value: "jewelery", bg: "bg-yellow-100"},
         {label: "📱 Electronics", value: "electronics", bg: "bg-green-100"}
@@ -65,6 +66,8 @@ function HomePage() {
         slidestoshow: 1,
         slidestoscroll: 1,
         arrows: false,
+        pauseOnHover: true, // Add this line to prevent pausing on hover
+        fade: true,
     };
 
     const openProductPage = (product: Product) => {
@@ -82,11 +85,11 @@ function HomePage() {
                 <div className="space-y-10">
 
                     {/* Hero Banner */}
-                    <div className="rounded-lg overflow-hidden shadow-lg">
+                    <div className="rounded-lg shadow-lg">
                         <Slider {...sliderSettings}>
                             {products.map((p) => (
                                 <div key={p.id} className="relative">
-                                    <img src={p.image} alt={p.title} className="w-full h-80 object-contain bg-gray-300 dark:bg-gray-800 rounded-lg" />
+                                    <img src={p.image} alt={p.title} className="w-full h-80 object-contain bg-blue-100 dark:bg-gray-800 rounded-lg" />
                                     <div className="w-100 absolute bottom-0 rounded-lg left-0 right-0 text-center text-xl font-semibold text-white bg-black">
                                         {p.title}
                                     </div>
@@ -119,7 +122,7 @@ function HomePage() {
                         ) : (
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 {randomProducts.map((p) => (
-                                    <div key={p.id} onClick={() => openProductPage(p)} className="bg-gray-200 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
+                                    <div key={p.id} onClick={() => openProductPage(p)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
                                         <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto" />
                                         <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
                                         <p className="text-blue-600 font-bold">${p.price}</p>
@@ -130,7 +133,7 @@ function HomePage() {
                     </section>
 
                     {/* Limited Offers */}
-                    <section className="bg-red-100 p-6 rounded-lg text-center">
+                    <section className="bg-violet-100 p-6 rounded-lg text-center">
                         <h2 className="text-xl font-bold mb-2">⚡ Limited Time Offer!</h2>
                         <p className="text-lg">Flat 30% Off on Electronics - Hurry Up!</p>
                         <p className="mt-2 text-sm text-gray-600">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>

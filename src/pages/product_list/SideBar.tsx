@@ -69,11 +69,11 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
                         <ul className="space-y-2 font-medium">
                             
                             {/* Admin */}
-                            {user?.username?.toLowerCase() === "admin" && (
+                            {user[0].username?.toLowerCase() === "admin" && (
                                 <li>
                                     <a onClick={() => GoToCategory("admin")} id="admin"
                                         className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer ${
-                                            isActive("admin") && location.pathname.startsWith("/admin")
+                                            isActive("admin") && user?.username?.toLowerCase() === "admin"    
                                                 ? "bg-blue-600 text-white font-semibold shadow-md"
                                                 : "text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-700"
                                         }`}>
