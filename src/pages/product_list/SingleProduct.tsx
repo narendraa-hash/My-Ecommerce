@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSingleProduct } from "../../api";
 import SideBar from "./SideBar";
 import { useCart } from "../cart/CartContext";
+import { useCurrency } from "../../hooks/useCurrency";
 
 interface Product {
     id: number;
@@ -32,6 +33,7 @@ function SingleProduct() {
     const [loading, setLoading] = useState(true);
     const [error, setError]  = useState<string | null>(null);
     const { addToCart } = useCart();
+    const { format } = useCurrency();
 
     // New Local States for Button & Notification
     const [disabled, setDisabled] = useState(false);
@@ -120,7 +122,7 @@ function SingleProduct() {
                                 <div className="flex-1">
                                     <h2 className="text-2xl font-bold mb-3">{product.title}</h2>
                                     <p className="text-gray-600 mb-4">{product.description}</p>
-                                    <p className="text-blue-600 font-bold text-lg">${product.price}</p>
+                                    <p className="text-blue-600 font-bold text-lg">{format(product.price)}</p>
                                     <div className="mt-4 flex gap-2">
                                         <button onClick={handleAddToCart} disabled={disabled} className={`px-4 py-2 rounded-lg text-white font-semibold transitio ${
                                                 disabled

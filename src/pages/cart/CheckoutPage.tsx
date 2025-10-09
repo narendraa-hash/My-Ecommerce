@@ -2,10 +2,12 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext }  from "./CartContext";
 import SideBar from "../product_list/SideBar";
+import { useCurrency } from "../../hooks/useCurrency";
 
 function CheckoutPage () {
     const { cart, clearCart } = useContext(CartContext)!;
     const navigate = useNavigate();
+    const { format, convert } = useCurrency();
 
     const [address, setAddress] = useState({
         fullName: "",
@@ -17,7 +19,7 @@ function CheckoutPage () {
 
     const [paymentMethod, setPaymentMethod] = useState("cod");
 
-    const total = cart.reduce((sum, p) => sum + p.price * (p.quantity || 1), 0);
+    const total = cart.reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0);
 
     const handlePlaceOrder = () => {
         if (!address.fullName || !address.street) {
@@ -65,13 +67,13 @@ function CheckoutPage () {
                             {cart.map((p) => (
                                 <li key={p.id} className="py-2 flex justify-between">
                                     <span>{p.title} (x{p.quantity})</span>
-                                    <span>${(p.price * (p.quantity || 1)).toFixed(2)}</span>
+                                    <span>{(convert(p.price) * (p.quantity || 1)).toFixed(2)}</span>
                                 </li>
                             ))}
                         </ul>
                         <div className="flex justify-between mt-4 font-bold">
                             <span>Total:</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>{total.toFixed(2)}</span>
                         </div>
                         <button className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" onClick={handlePlaceOrder}>Place Order</button>
                     </div>

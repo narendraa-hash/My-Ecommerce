@@ -1,6 +1,7 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
+import { useCurrency } from "../../hooks/useCurrency";
 
 type Props = {
     isOpen: boolean;
@@ -10,6 +11,7 @@ type Props = {
 function CartPopup({ isOpen, onClose }: Props) {
     const { cart, removeFromCart } = useCart();
     const navigate = useNavigate();
+    const { format, convert } = useCurrency();
 
     return (
         <>
@@ -35,7 +37,7 @@ function CartPopup({ isOpen, onClose }: Props) {
                                             <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
                                             <div className="flex-1">
                                                 <h3 className="text-sm font-medium">{item.title}</h3>
-                                                <p className="text-blue-600 font-bold">${item.price} × {(item.quantity || 1)}</p>
+                                                <p className="text-blue-600 font-bold">{format(item.price)} × {(item.quantity || 1)}</p>
                                             </div>
                                             <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:underline text-sm cursor-pointer">Remove</button>
                                         </li>
@@ -45,7 +47,7 @@ function CartPopup({ isOpen, onClose }: Props) {
                                     <span>Total:</span>
                                     <span>$
                                         {cart
-                                            .reduce((sum, p) => sum + p.price * (p.quantity || 1), 0)
+                                            .reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0)
                                             .toFixed(2)}
                                     </span>
                                 </div>
