@@ -4,6 +4,7 @@ import SideBar from "../product_list/SideBar";
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import CountDown from "./CountDown";
+import { useCurrency } from "../../hooks/useCurrency";
 
 interface Product {
     id: number;
@@ -18,7 +19,7 @@ function HomePage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const [inrAmount, setInrAmount] = useState("");
+    const { format } = useCurrency();
 
     // First, create a sorted copy of the products array to avoid mutating the original array
     // const sortedProducts = [...products].sort((a, b) => b.price - a.price);
@@ -125,7 +126,7 @@ function HomePage() {
                                     <div key={p.id} onClick={() => openProductPage(p)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
                                         <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto" />
                                         <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
-                                        <p className="text-blue-600 font-bold">${p.price}</p>
+                                        <p className="text-blue-600 font-bold">{format(p.price)}</p>
                                     </div>
                                 ))}
                             </div>
