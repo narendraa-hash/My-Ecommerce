@@ -24,8 +24,10 @@ export const getAllCarts = () => api.get("/carts");
 
 // Auth Calls
 export const loginUser = async (username: string, password: string) => {
-    const res = await authApi.get(`/users?username=${username}&password=${password}`);
-    return res.data[0]; // First matching user or undefined
+    if (username && password) {
+        const res = await authApi.get(`/users?username=${username}&password=${password}`);
+        return res.data; // First matching user or undefined
+    }
 };
 
 // Register New Users

@@ -78,15 +78,15 @@ function ProductsList() {
 
             {/* ... your component's main content ... */}
             <SideBar title={`My Ecommerce - ${category ? category : "Products"}`}>
-                <div className="bg-gray-100 min-h-[60vh] p-2 rounded space-y-6">
+                <div className="min-h-[60vh] p-2 rounded space-y-10">
                     {/* Carousel Section */}
                     {!loading && !error && products.length > 0 && (
-                        <div className="rounded-lg overflow-hidden shadow-md">
+                        <div className="rounded-lg">
                             <Slider {...sliderSettings}>
                                 {products.slice(0, 5).map((product) => (
                                     <div key={product.id} className="relative">
-                                        <img src={product.image} alt={product.title} className="w-full h-64 object-contain bg-grey-900 p-7" />
-                                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-center text-sm">
+                                        <img src={product.image} alt={product.title} className="w-full h-64 object-contain bg-blue-100 dark:bg-gray-800 rounded-lg" />
+                                        <div className="w-100 absolute bottom-0 rounded-lg left-0 right-0 bg-black text-white text-center text-md font-semibold">
                                             {product.title}
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@ function ProductsList() {
                     {!loading && !error && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {products.map((product) => (
-                                <div key={product.id} onClick={() => openProductPage(product)} className="bg-white rounded-lg shadow-md p-4 flex flex-col cursor-pointer hover:scale-105 transition">
+                                <div key={product.id} onClick={() => openProductPage(product)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-pointer hover:scale-105 transition">
                                     <img src={product.image} alt={product.title} className="h-40 object-contain mx-auto" />
                                     <h2 className="text-sm font-semibold mt-3 line-clamp-2">{product.title}</h2>
                                     <p className="text-blue-600 font-bold mt-2">${product.price}</p>

@@ -15,16 +15,19 @@ function LoginPage() {
 
         // login check
         const user = await loginUser(username, password);
-        if (user) {
-            login(user);    // save to context + localStorage
-            navigate("/home");
-            {/* if (user.username.toLowerCase() === "admin") {  // Redirection Logic
-                navigate("/admin");
-            } else {
+        if (username && password) {
+            if (user) {
+                login(user);    // save to context + localStorage
                 navigate("/home");
-                
-            } */}
-        } else {
+                {/* if (user.username.toLowerCase() === "admin") {  // Redirection Logic
+                    navigate("/admin");
+                } else {
+                    navigate("/home");
+                    
+                } */}
+            }
+        } 
+        else {
             setError("Invalid username or password");
         }
     };
