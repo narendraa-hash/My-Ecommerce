@@ -28,7 +28,11 @@ function App() {
                                 <AdminAddProduct
                                     isNewOpen={false}
                                     onNewClose={function (): void { throw new Error("Function not implemented."); } }
+<<<<<<< HEAD
                                     onProductAdded={function (): void { throw new Error("Function not implemented."); } }
+=======
+                                    onProductAdded={function (_product: any): void { throw new Error("Function not implemented."); } }
+>>>>>>> 6c1a8b61e1f3198161b846041f59fea3250ea9af
                                 />
                                 }
                             />
@@ -36,7 +40,11 @@ function App() {
                                 <AdminEditProduct
                                     isOpen={false}
                                     onClose={function (): void { throw new Error("Function not implemented."); } }
+<<<<<<< HEAD
                                     product={undefined} onProductUpdated={function (): void { throw new Error("Function not implemented."); } }
+=======
+                                    product={undefined} onProductUpdated={function (_product: any): void { throw new Error("Function not implemented."); } }
+>>>>>>> 6c1a8b61e1f3198161b846041f59fea3250ea9af
                                 />
                                 }
                             />
