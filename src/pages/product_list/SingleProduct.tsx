@@ -44,7 +44,7 @@ function SingleProduct() {
         setLoading(true);
         setError(null);
         getSingleProduct(Number(id)).then((res) => {
-            if (res.status == 200) {
+            if (res.status === 200) {
                 setProduct(res.data);
             } else {
                 setError("Failet to fetch products.");
