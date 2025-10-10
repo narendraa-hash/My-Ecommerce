@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CartPopup from "../cart/CartPopup";
 import { useAuth } from "../../AuthContext";
 
@@ -11,7 +11,6 @@ type Props = {
 function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
     
     const navigate = useNavigate();
-    const { category } = useParams<{ category?: string}>();
     const location = useLocation();
     const [cartOpen, setCartOpen] = useState(false);
     const { user } = useAuth(); // Get Logged-in User
@@ -43,7 +42,21 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
         }
     };
 
-    const isActive = (cat: string) => category === cat;
+    // Helper To Build Target For Category or Special Pages
+    const pathFor = (cat: string) => {
+        if (cat === "home") return "/home";
+        if (cat === "admin") return "/admin";
+        return `/products/${encodeURIComponent(cat)}`;
+    };
+
+    // isActive returns true if current pathname equals target or starts with target + '/'
+    const isActive = (cat: string) => {
+        const target = pathFor(cat);
+        return (
+            location.pathname === target ||
+            location.pathname.startsWith(target + "/")  // handles /products/:category/:id
+        );
+    };
 
     return (
         <> 
@@ -73,7 +86,7 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
                                 <li>
                                     <a onClick={() => GoToCategory("admin")} id="admin"
                                         className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer ${
-                                            isActive("admin") && user?.username?.toLowerCase() === "admin"    
+                                            isActive("admin")
                                                 ? "bg-blue-600 text-white font-semibold shadow-md"
                                                 : "text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-700"
                                         }`}>
