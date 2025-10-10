@@ -8,7 +8,7 @@ function OrderSuccess () {
     const navigate = useNavigate();
     const { address, total, paymentMethod } = location.state || {};
 
-    // Redirect To Home If No Order Data(User Accessed Directly)
+    // Redirect To Home If No Order Data (User Accessed Directly)
     useEffect(() => {
         if (!address) navigate("/home");
     }, [address, navigate]);
@@ -16,7 +16,7 @@ function OrderSuccess () {
     const handleDownPDF = () => {
         const doc = new jsPDF();
         doc.setFontSize(18);
-        doc.text("Order Recipt", 20, 20);
+        doc.text("Order Receipt", 20, 20);
         doc.setFontSize(12);
         doc.text(`Full Name: ${address.fullName}`, 20, 40);
         doc.text(`Street: ${address.street}`, 20, 50);
@@ -26,7 +26,7 @@ function OrderSuccess () {
         doc.text(`Payment Method: ${address.paymentMethod === "cod" ? "Cash On Delivery" : "card"}`, 20, 100);
         doc.text(`Total Amount: ${address.total.toFixed(2)}`, 20, 120);
         doc.text("Thank you for shopping with My Ecommerce!", 20, 140);
-        doc.save(`OrderRecipt_${address.fullName}.pdf`);
+        doc.save(`OrderReceipt_${address.fullName}.pdf`);
     };
 
     return (

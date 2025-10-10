@@ -7,7 +7,7 @@ import { useCurrency } from "../../hooks/useCurrency";
 function CheckoutPage () {
     const { cart, clearCart } = useContext(CartContext)!;
     const navigate = useNavigate();
-    const { format, convert } = useCurrency();
+    const { convert } = useCurrency();
 
     const [address, setAddress] = useState({
         fullName: "",
@@ -30,7 +30,7 @@ function CheckoutPage () {
         // Simulate Order + Order Placement
         clearCart();
         navigate("/order-success", {
-            state: { address, total, paymentMethod } as any,
+            state: { address, total, paymentMethod } as object,
         });
     };
 

@@ -5,10 +5,10 @@ import AdminEditProduct from "./AdminEditProduct";
 import SideBar from "../product_list/SideBar";
 
 interface Product {
-    id: number;
+    id: string;
     title: string;
     price: number;
-    description?: string;
+    description?: string | undefined; // optional
     category: string;
     image: string;
 }
@@ -31,7 +31,7 @@ function AdminDashboard() {
             setLoading(false);
         }
 
-        // Then fetch fresh data from backend
+        // Then fetch fresh data from the backend
         const res = await getAllProducts();
         if (res.status === 200) {
             // console.log("res", res.data);
@@ -42,7 +42,7 @@ function AdminDashboard() {
     };
 
     useEffect(() => {
-        fetchProducts();
+        fetchProducts().then(() => {});
     }, []);
 
     // Delete product from both backend & localStorage
@@ -51,7 +51,7 @@ function AdminDashboard() {
             const res = await deleteProduct(id);
             if (res.status === 200) {
                 alert("Product Deleted!");
-                const delProInLocal = products.filter((p) => p.id !== id);
+                const delProInLocal = products.filter((p) => Number(p.id) !== id);
                 setProducts(delProInLocal);
                 localStorage.setItem("adminProducts", JSON.stringify(delProInLocal));
             }
@@ -78,11 +78,11 @@ function AdminDashboard() {
                 <button onClick={() => setCartOpen(true)} className="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-lg mb-2 cursor-pointer">Add New Product</button>
 
                 {/* Add Product Modal */}
-                <AdminAddProduct isNewOpen={cartOpen} onNewClose={() => setCartOpen(false)} onProductAdded={handleProductAdded} />
+                <AdminAddProduct isNewOpen={cartOpen} onNewClose={() => setCartOpen(false)} onProductAdded={handleProductAdded}/>
 
                 {/* Edit Popup Modal */}
                 {selectedProduct && (
-                    <AdminEditProduct isOpen={updCartOpen} onClose={() => setUpdCartOpen(false)} product={selectedProduct} onProductUpdated={handleProductUpdated} />
+                    <AdminEditProduct isOpen={updCartOpen} onClose={() => setUpdCartOpen(false)} product={selectedProduct} onProductUpdated={handleProductUpdated}/>
                 )}
                 {loading ? (
                     <p>Loading Product...</p>
@@ -106,7 +106,7 @@ function AdminDashboard() {
                                     <td className="p-2 border">{p.price}</td>
                                     <td className="p-2 border space-x-2">
                                         <button onClick={() => handleEdit(p)} className="bg-blue-600 hover:bg-blue-800 text-white px-2 py-1 rounded cursor-pointer">Edit</button>
-                                        <button onClick={() => handleDelete(p.id)} className="bg-red-600 hover:bg-red-800 text-white px-2 py-1 rounded cursor-pointer">Delete</button>
+                                        <button onClick={() => handleDelete(Number(p.id))} className="bg-red-600 hover:bg-red-800 text-white px-2 py-1 rounded cursor-pointer">Delete</button>
                                     </td>
                                 </tr>
                             ))}
@@ -116,6 +116,6 @@ function AdminDashboard() {
             </SideBar>
         </>
     );
-};
+}
 
 export default AdminDashboard;

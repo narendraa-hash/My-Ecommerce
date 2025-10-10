@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CartPopup from "../cart/CartPopup";
 import { useAuth } from "../../AuthContext";
@@ -13,7 +13,7 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
     const navigate = useNavigate();
     const location = useLocation();
     const [cartOpen, setCartOpen] = useState(false);
-    const { user } = useAuth(); // Get Logged-in User
+    const { user } = useAuth(); // Get logged-in User
     const [open, setOpen] = useState<boolean>(() => {
         const saved = localStorage.getItem("sidebar-open"); // Load From LocalStorage So It Remembers The Last State
         return saved ? JSON.parse(saved) : true;    // Open By Default
@@ -30,7 +30,6 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
 
     // inside SideBar, wherever you navigate to a category:
     const GoToCategory = (cat: string) => {
-        console.log("cat", cat);
         if (cat === "home") {
             navigate("/home");
         }
@@ -49,7 +48,7 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
         return `/products/${encodeURIComponent(cat)}`;
     };
 
-    // isActive returns true if current pathname equals target or starts with target + '/'
+    // isActive returns true if the current pathname equals target or starts with target + '/'
     const isActive = (cat: string) => {
         const target = pathFor(cat);
         return (
@@ -82,7 +81,7 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
                         <ul className="space-y-2 font-medium">
                             
                             {/* Admin */}
-                            {user[0].username?.toLowerCase() === "admin" && (
+                            {user?.[0].username?.toLowerCase() === "admin" && (
                                 <li>
                                     <a onClick={() => GoToCategory("admin")} id="admin"
                                         className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer ${
@@ -170,10 +169,10 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
 
                 {/* MOBILE overlay only (lg:hidden) */}
                 {open && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden pointer-events-none"></div>   // clicking overlay closes sidebar
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden pointer-events-none"></div>   // clicking overlay closes the sidebar
                 )}
 
-                {/* Header — fixed and will shift on desktop when sidebar is open */}
+                {/* Header — fixed and will shift on desktop when the sidebar is open */}
                 <header
                     className={`fixed top-0 z-20 flex items-center justify-between px-4 py-3 bg-white shadow transition-all duration-300 ${
                         open ? "lg:left-64 lg:w-[calc(100%-16rem)]" : "left-0 w-full"
@@ -204,7 +203,7 @@ function SideBar({ children, title = "My Ecommerce - Products" }: Props) {
                     {/* Only show if NOT on login */}
                     {location.pathname !== "/login" && (
                         <div className="fixed top-3 right-3 z-50">
-                            <button onClick={() => setCartOpen(true)}className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer">Go to Cart</button>
+                            <button onClick={() => setCartOpen(true)} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer">Go to Cart</button>
                         </div>
                     )}
                     

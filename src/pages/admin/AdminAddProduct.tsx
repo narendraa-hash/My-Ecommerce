@@ -5,6 +5,14 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 type Props = {
     isNewOpen: boolean;
     onNewClose: () => void;
+    product?: {    // optional
+        title: string;
+        price: number;
+        description: string;
+        category: string;
+        image: string;
+        id: string;
+    };
     onProductAdded: (product: any) => void;
 };
 
@@ -14,7 +22,7 @@ function AdminAddProduct({ isNewOpen, onNewClose, onProductAdded }: Props) {
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
-    
+
     useEffect(() => {
         if (isNewOpen) {
             setTitle("");
@@ -23,7 +31,7 @@ function AdminAddProduct({ isNewOpen, onNewClose, onProductAdded }: Props) {
             setCategory("");
             setCategory("");
         }
-    });
+    }, [isNewOpen]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,7 +40,7 @@ function AdminAddProduct({ isNewOpen, onNewClose, onProductAdded }: Props) {
             alert("Please fill all required fields.");
             return;
         }
-        
+
         const newProduct = {
             title,
             price: Number(price),
@@ -47,7 +55,7 @@ function AdminAddProduct({ isNewOpen, onNewClose, onProductAdded }: Props) {
             onProductAdded(res.data);
             onNewClose();
 
-            // Also create product in localStorage
+            // Also create a product in localStorage
             const addProInLocal = JSON.parse(localStorage.getItem("adminProducts") || "[]");
             addProInLocal.push(res.data);
             localStorage.setItem("adminProducts", JSON.stringify(addProInLocal));
@@ -57,7 +65,7 @@ function AdminAddProduct({ isNewOpen, onNewClose, onProductAdded }: Props) {
     return (
         <>
             <Dialog open={isNewOpen} onClose={onNewClose} className="relative z-50">
-            
+
                 {/* Overlay */}
                 <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
 
@@ -83,6 +91,6 @@ function AdminAddProduct({ isNewOpen, onNewClose, onProductAdded }: Props) {
             </Dialog>
         </>
     );
-};
+}
 
 export default AdminAddProduct;

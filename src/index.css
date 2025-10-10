@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @import "slick-carousel/slick/slick.css";
 
 @import "slick-carousel/slick/slick-theme.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --color-custom-blue: #ffffff; 

@@ -20,20 +20,21 @@ function registerPage() {
         }
 
         try {
-            // Check if username already exists
+            // Check if the username already exists
             const existUser = await checkUsernameExists(username);
             if (existUser) {
                 setError("Username already taken. Choose another.");
                 return;
             }
 
-            // Create new User
+            // Create a new User
             const newUser = await registerUser(username, password);
             if (newUser) {
                 login(newUser); // auto-login after registration
                 navigate("/home");
             }
-        } catch (err) {
+        } catch(err) {
+            console.error("API Error:", err);
             setError("Registration failed. Try again.");
         }
     };
@@ -63,6 +64,6 @@ function registerPage() {
             </div>
         </>
     );
-};
+}
 
 export default registerPage;

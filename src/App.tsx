@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login/LoginPage";
-import ProductsList from "./pages/product_list/ProductsList";     // adjust path if files live in ./pages or ./components
+import ProductsList from "./pages/product_list/ProductsList";     // adjust a path if files live in ./pages or ./components
 import SingleProduct from "./pages/product_list/SingleProduct";
 import HomePage from "./pages/home/HomePage";
 import CheckoutPage from "./pages/cart/CheckoutPage";
@@ -28,7 +28,7 @@ function App() {
                                 <AdminAddProduct
                                     isNewOpen={false}
                                     onNewClose={function (): void { throw new Error("Function not implemented."); } }
-                                    onProductAdded={function (_product: any): void { throw new Error("Function not implemented."); } }
+                                    onProductAdded={function (): void { throw new Error("Function not implemented."); } }
                                 />
                                 }
                             />
@@ -36,7 +36,7 @@ function App() {
                                 <AdminEditProduct
                                     isOpen={false}
                                     onClose={function (): void { throw new Error("Function not implemented."); } }
-                                    product={undefined} onProductUpdated={function (_product: any): void { throw new Error("Function not implemented."); } }
+                                    product={undefined} onProductUpdated={function (): void { throw new Error("Function not implemented."); } }
                                 />
                                 }
                             />
@@ -65,6 +65,6 @@ function App() {
             </div>
         </>
     );
-};
+}
 
 export default App;

@@ -21,7 +21,7 @@ function HomePage() {
     const navigate = useNavigate();
     const { format } = useCurrency();
 
-    // First, create a sorted copy of the products array to avoid mutating the original array
+    // First, create a sorted copy of the product array to avoid mutating the original array
     // const sortedProducts = [...products].sort((a, b) => b.price - a.price);
 
     function shuffleArray(products: Product[]) {
@@ -34,7 +34,7 @@ function HomePage() {
             [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
         }
         return newArray;
-    }
+    };
 
     // Use the shuffle utility function before slicing
     const shuffledProducts = shuffleArray(products);
@@ -145,14 +145,13 @@ function HomePage() {
                         <h2 className="text-xl font-bold mb-4">What our Customers Say</h2>
                         <div className="space-y-4">
                             <blockquote className="p-4 bg-gray-50 rounded-lg shadow">
-                                ⭐⭐⭐⭐⭐ “Amazing products and fast delivery!” – Narendra.
+                            ⭐⭐⭐⭐⭐ “Amazing products and fast delivery!” – Narendra.
                             </blockquote>
                             <blockquote className="p-4 bg-gray-50 rounded-lg shadow">
-                                ⭐⭐⭐⭐ “Good quality at reasonable prices.” – P K.
+                            ⭐⭐⭐⭐ “Good quality at reasonable prices.” – P K.
                             </blockquote>
                         </div>
                     </section>
-
                 </div>
             </SideBar>
         </>

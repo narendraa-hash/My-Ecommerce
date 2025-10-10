@@ -29,8 +29,8 @@ function ProductsList() {
         setError(null);
         const fetchProducts = async () => {
             try {
-
                 let res;
+
                 if (category) {
                     // use category as-is — react-router decodes URL components automatically
                     res = await getProductsByCategory(category);
@@ -44,14 +44,14 @@ function ProductsList() {
                     setError("Failed to fetch products. Please try again.");
                 }
 
-            } catch (err: any) {
+            } catch (err) {
                 console.error("API Error:", err);
                 setError("Something went wrong. Please try again later.");
             } finally {
                 setLoading(false);
             }
         };
-        fetchProducts();
+        fetchProducts().then(() => {});
     }, [category]);
 
     // Carousel settings

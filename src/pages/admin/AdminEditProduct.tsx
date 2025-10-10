@@ -5,16 +5,23 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 type UpdProps = {
     isOpen: boolean;
     onClose: () => void;
-    product: any;
+    product?: {     //Product Object is optional
+        title: string;
+        price: number;
+        description?: string;   // Description is Optional
+        category: string;
+        image: string;
+        id: string;
+    };
     onProductUpdated: (product: any) => void;
 };
 
 function AdminEditProduct({ isOpen, onClose, product, onProductUpdated }: UpdProps) {
-    const [title, setTitle] = useState(product.title);
-    const [price, setPrice] = useState(product.price);
-    const [category, setCategory] = useState(product.category);
-    const [description, setDescription] = useState(product.description || "");
-    const [image, setImage] = useState(product.image);
+    const [title, setTitle] = useState(product?.title);
+    const [price, setPrice] = useState(product?.price);
+    const [category, setCategory] = useState(product?.category);
+    const [description, setDescription] = useState(product?.description || "");
+    const [image, setImage] = useState(product?.image);
 
     useEffect(() => {
         if (product) {
@@ -28,14 +35,14 @@ function AdminEditProduct({ isOpen, onClose, product, onProductUpdated }: UpdPro
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!title || !price || !category) {
             alert("Please fill all required fields.");
             return;
         }
 
         const editedProduct = { title, price, description, category, image };
-        const res = await updateProduct(product.id, editedProduct);
+        const res = await updateProduct(Number(product?.id), editedProduct);
 
         if (res.status === 200 || res.status === 201) {
             alert("Product updated successfully!");
@@ -49,7 +56,7 @@ function AdminEditProduct({ isOpen, onClose, product, onProductUpdated }: UpdPro
             // Parse the string back into a JavaScript array.
             // The `|| "[]"` fallback provides a default empty array as a string, which JSON.parse can handle.
             const updProInLocal = JSON.parse(storedProducts || "[]");
-            const checkUpdProId = updProInLocal.map((p: any) => p.id === product.id ? editedProduct : p);
+            const checkUpdProId = updProInLocal.map((p: { id: string; }) => p.id === product?.id ? editedProduct : p);
             localStorage.setItem("adminProducts", JSON.stringify(checkUpdProId)); // Convert the updated array back to a JSON string before storing it
         }
     };

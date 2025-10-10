@@ -47,7 +47,7 @@ function SingleProduct() {
             if (res.status === 200) {
                 setProduct(res.data);
             } else {
-                setError("Failet to fetch products.");
+                setError("Failed to fetch products.");
             }
         })
         .catch(() => setError("Something went wrong."))
@@ -56,7 +56,7 @@ function SingleProduct() {
 
     const handleBack = () => {
         // Priority:
-        // 1) If category was present in URL params -> go back to that category list.
+        // 1) If a category was present in URL params -> go back to that category list.
         // 2) Else if product.category exists (from fetched product) -> go to that category.
         // 3) Else go to all products.
         if (categoryParam) {
@@ -72,7 +72,7 @@ function SingleProduct() {
 
     const prettyCategory = (cat?: string) => {
         if (!cat) return null;
-        // make it look nicer: capitalize first letter
+        // make it look nicer: capitalize the first letter
         return cat.charAt(0).toUpperCase() + cat.slice(1);
     };
 
@@ -124,7 +124,7 @@ function SingleProduct() {
                                     <p className="text-gray-600 mb-4">{product.description}</p>
                                     <p className="text-blue-600 font-bold text-lg">{format(product.price)}</p>
                                     <div className="mt-4 flex gap-2">
-                                        <button onClick={handleAddToCart} disabled={disabled} className={`px-4 py-2 rounded-lg text-white font-semibold transitio ${
+                                        <button onClick={handleAddToCart} disabled={disabled} className={`px-4 py-2 rounded-lg text-white font-semibold transition ${
                                                 disabled
                                                 ? "bg-gray-400 cursor-not-allowed"
                                                 : "bg-blue-600 hover:bg-blue-700"

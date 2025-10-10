@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Create axios instance with fakestoreapi baseURL
+// Create axios instance with fake store api baseURL
 const api = axios.create({
     baseURL: "https://fakestoreapi.com",
 });
@@ -13,14 +13,10 @@ const authApi = axios.create({
 // Example API calls
 export const getAllProducts = () => api.get("/products");
 export const getSingleProduct = (id: number) => api.get(`/products/${id}`);
-export const getAllCategories = () => api.get("/products/categories");
 export const getProductsByCategory = (category: string) => api.get(`/products/category/${category}`);
 export const deleteProduct = (id: number) => api.delete(`/products/${id}`);
-export const createProduct = (product: any) => api.post("/products", product);
-export const updateProduct = (id: number, product: any) => api.put(`/products/${id}`, product);
-export const getProductByID = (id: number) => api.get(`/products/${id}`);
-
-export const getAllCarts = () => api.get("/carts");
+export const createProduct = (product: object) => api.post("/products", product);
+export const updateProduct = (id: number, product: object) => api.put(`/products/${id}`, product);
 
 // Auth Calls
 export const loginUser = async (username: string, password: string) => {
@@ -36,10 +32,9 @@ export const registerUser = async (username: string, password: string) => {
     return res.data;
 };
 
-// Check if user already exists
+// Check if a user already exists
 export const checkUsernameExists = async (username: string) => {
     const res = await axios.get(`http://localhost:5001/users?username=${username}`);
-    return res.data.length > 0; // True if username exists
+    return res.data.length > 0; // True if a username exists
 };
 
-export default api;
