@@ -64,6 +64,8 @@ function ProductsList() {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
+        pauseOnHover: true, // Add this line to prevent pausing on hover
+        fade: true,
     };
 
     const openProductPage = (product: Product) => {
@@ -106,7 +108,7 @@ function ProductsList() {
                                 <div key={product.id} onClick={() => openProductPage(product)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-pointer hover:scale-105 transition">
                                     <img src={product.image} alt={product.title} className="h-40 object-contain mx-auto" />
                                     <h2 className="text-sm font-semibold mt-3 line-clamp-2">{product.title}</h2>
-                                    <p className="text-blue-600 font-bold mt-2">{format(product.price)}</p>
+                                    <p className="text-blue-600 font-bold mt-2">{format(product.price)} /-</p>
                                 </div>
                             ))}
                         </div>

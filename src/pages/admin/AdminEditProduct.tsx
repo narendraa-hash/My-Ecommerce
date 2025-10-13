@@ -19,8 +19,8 @@ type UpdProps = {
 function AdminEditProduct({ isOpen, onClose, product, onProductUpdated }: UpdProps) {
     const [title, setTitle] = useState(product?.title);
     const [price, setPrice] = useState(product?.price);
-    const [category, setCategory] = useState(product?.category);
     const [description, setDescription] = useState(product?.description || "");
+    const [category, setCategory] = useState(product?.category);
     const [image, setImage] = useState(product?.image);
 
     useEffect(() => {

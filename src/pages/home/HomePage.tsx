@@ -13,6 +13,9 @@ interface Product {
     price: number;
     category: string;
     description?: string;
+    rating?: {
+        rate: number;
+    };
 }
 
 function HomePage() {
@@ -30,6 +33,7 @@ function HomePage() {
         for (let i = newArray.length - 1; i > 0; i--) {
             // Pick a random index from the remaining elements
             const j = Math.floor(Math.random() * (i + 1));
+
             // Swap the current element with the random element
             [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
         }
@@ -41,10 +45,10 @@ function HomePage() {
     const randomProducts = shuffledProducts.slice(0, 4);
 
     const categories = [
-        {label: "👕 Men's Clothing", value: "men's clothing", bg: "bg-red-100"},
-        {label: "👗 Women's Clothing", value: "women's clothing", bg: "bg-pink-100"},
-        {label: "💍 Jewellery", value: "jewelery", bg: "bg-yellow-100"},
-        {label: "📱 Electronics", value: "electronics", bg: "bg-green-100"}
+        {icon: "👕", label: "Men's Clothing", value: "men's clothing", bg: "bg-red-100"},
+        {icon: "👗", label: "Women's Clothing", value: "women's clothing", bg: "bg-pink-100"},
+        {icon: "💍", label: "Jewellery", value: "jewelery", bg: "bg-yellow-100"},
+        {icon: "📱", label: "Electronics", value: "electronics", bg: "bg-green-100"}
     ];
 
     useEffect(() => {
@@ -104,18 +108,16 @@ function HomePage() {
                         <h2 className="text-xl font-bold mb-4">Featured Categories</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             {categories.map((c) => (
-                                <div key={c.value}
-                                    className={`${c.bg} p-6 rounded-lg text-center cursor-pointer hover:scale-105 transition`} onClick={() => navigate(`/products/${c.value}`)}>{c.label}
-                                </div>
+                                <a key={c.value}
+                                    className={`${c.bg} p-6 rounded-lg text-center cursor-pointer hover:scale-105 transition`} onClick={() => navigate(`/products/${c.value}`)}>
+                                    <span>{c.icon}</span>
+                                    <span className="ms-3">{c.label}</span>
+                                </a>
                             ))}
-                            {/* <div className="bg-blue-100 p-6 rounded-lg text-center cursor-pinter">👕 Men's Clothing</div>
-                            <div className="bg-pink-100 p-6 rounded-lg text-center cursor-pinter">👗 Women's Clothing</div>
-                            <div className="bg-yellow-100 p-6 rounded-lg text-center cursor-pinter">💍 Jewellery</div>
-                            <div className="bg-green-100 p-6 rounded-lg text-center cursor-pinter">📱 Electronics</div> */}
                         </div>
                     </section>
 
-                    {/* Best Seller */}
+                    {/* Top Picks */}
                     <section>
                         <h2 className="text-xl font-bold mb-4">Top Picks</h2>
                         {loading ? (
@@ -126,7 +128,8 @@ function HomePage() {
                                     <div key={p.id} onClick={() => openProductPage(p)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
                                         <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto" />
                                         <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
-                                        <p className="text-blue-600 font-bold">{format(p.price)}</p>
+                                        <p className="text-blue-600 font-bold">{format(p.price)} /-</p>
+                                        <span className="text-md text-yellow-600 font-semibold">Rating: {p.rating?.rate}</span>
                                     </div>
                                 ))}
                             </div>
@@ -144,11 +147,18 @@ function HomePage() {
                     <section>
                         <h2 className="text-xl font-bold mb-4">What our Customers Say</h2>
                         <div className="space-y-4">
+                            {/* <li className="space-y-2">
+                                {products.map((c) => (
+                                    <span id="group_categories" className="flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer">
+                                        <span>{c.rating?.rate} * "⭐"</span>
+                                    </span>
+                                ))}
+                            </li> */}
                             <blockquote className="p-4 bg-gray-50 rounded-lg shadow">
-                            ⭐⭐⭐⭐⭐ “Amazing products and fast delivery!” – Narendra.
+                                ⭐⭐⭐⭐⭐ “Amazing products and fast delivery!” – Narendra.
                             </blockquote>
                             <blockquote className="p-4 bg-gray-50 rounded-lg shadow">
-                            ⭐⭐⭐⭐ “Good quality at reasonable prices.” – P K.
+                                ⭐⭐⭐⭐ “Good quality at reasonable prices.” – P K.
                             </blockquote>
                         </div>
                     </section>

@@ -37,4 +37,3 @@ export const checkUsernameExists = async (username: string) => {
     const res = await axios.get(`http://localhost:5001/users?username=${username}`);
     return res.data.length > 0; // True if a username exists
 };
-
