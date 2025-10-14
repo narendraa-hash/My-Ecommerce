@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import Slider from "react-slick";
 import { useCurrency } from "../../hooks/useCurrency";
+import {StarIcon} from "@heroicons/react/24/solid";
+import {StarIcon as StarOutlineIcon} from "@heroicons/react/24/outline";
 
 // Define an interface for a Product
 interface Product {
@@ -13,6 +15,9 @@ interface Product {
     price: number;
     description?: string;
     category?: string;
+    rating?: {
+        rate: number;
+    };
     // Add any other properties from your product data here
 }
 
@@ -64,7 +69,7 @@ function ProductsList() {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        pauseOnHover: true, // Add this line to prevent pausing on hover
+        pauseOnHover: false, // Add this line to prevent pausing on hover
         fade: true,
     };
 
@@ -104,13 +109,46 @@ function ProductsList() {
                     {error && <p className="text-center text-red-500 font-medium">{error}</p>}
                     {!loading && !error && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {products.map((product) => (
-                                <div key={product.id} onClick={() => openProductPage(product)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-pointer hover:scale-105 transition">
-                                    <img src={product.image} alt={product.title} className="h-40 object-contain mx-auto" />
-                                    <h2 className="text-sm font-semibold mt-3 line-clamp-2">{product.title}</h2>
-                                    <p className="text-blue-600 font-bold mt-2">{format(product.price)} /-</p>
-                                </div>
-                            ))}
+                            {products.map((product) => {
+                                const rating = product.rating?.rate || 0;
+                                const fullStars = Math.floor(rating);        // full stars
+                                const hasHalfStar = rating % 1 >= 0.5;       // if half star
+                                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                                return (
+                                    <>
+                                        <div key={product.id} onClick={() => openProductPage(product)}
+                                             className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-pointer hover:scale-105 transition">
+                                            <img src={product.image} alt={product.title}
+                                                 className="h-40 object-contain mx-auto"/>
+                                            <h2 className="text-sm font-semibold mt-3 line-clamp-2">{product.title}</h2>
+                                            <p className="text-blue-600 font-bold mt-2">{format(product.price)} /-</p>
+                                            <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
+                                                  key={product.id} id="group_categories">
+                                                <div className="flex text-green-500">
+
+                                                    {/* Full stars */}
+                                                    {Array(fullStars).fill(0).map((_, i) => (
+                                                        <StarIcon key={`full-${i}`} className="h-5 w-5"/>
+                                                    ))}
+
+                                                    {/* Half star: heroicons doesn’t have exact half, so use outline for half effect or custom */}
+                                                    {hasHalfStar && (
+                                                        <StarIcon className="h-5 w-5 text-green-300 relative"/>
+                                                    )}
+
+                                                    {/* Empty stars */}
+                                                    {Array(emptyStars).fill(0).map((_, i) => (
+                                                        <StarOutlineIcon key={`empty-${i}`} className="h-5 w-5"/>
+                                                    ))}
+                                                </div>
+
+                                                {/* Numeric rating */}
+                                                <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                            </span>
+                                        </div>
+                                    </>
+                                );
+                            })}
                         </div>
                     )}
                 </div>

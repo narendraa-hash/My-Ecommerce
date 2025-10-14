@@ -4,6 +4,8 @@ import { getSingleProduct } from "../../api";
 import SideBar from "./SideBar";
 import { useCart } from "../cart/CartContext";
 import { useCurrency } from "../../hooks/useCurrency";
+import {StarIcon} from "@heroicons/react/24/solid";
+import {StarIcon as StarOutlineIcon} from "@heroicons/react/24/outline";
 
 interface Product {
     id: number;
@@ -12,6 +14,9 @@ interface Product {
     price: number;
     description?: string;
     category?: string;
+    rating?: {
+        rate: number;
+    };
 }
 
 function decodeIfNeeded(value?: string) {
@@ -39,6 +44,8 @@ function SingleProduct() {
     const [disabled, setDisabled] = useState(false);
     const [notification, setNotification] = useState(false);
 
+
+
     useEffect(() => {
         if (!id) return;
         setLoading(true);
@@ -53,6 +60,11 @@ function SingleProduct() {
         .catch(() => setError("Something went wrong."))
         .finally(() => setLoading(false));
     }, [id]);
+
+    const rating = product?.rating?.rate || 0;
+    const fullStars = Math.floor(rating);        // full stars
+    const hasHalfStar = rating % 1 >= 0.5;       // if half star
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
     const handleBack = () => {
         // Priority:
@@ -93,11 +105,11 @@ function SingleProduct() {
     return (
         <>
             <SideBar title={`My Ecommerce - ${product?.title ?? "Product"}`}>
-                <div className="bg-gray-100 min-h-[60vh] p-6 rounded space-y-4">
+                <div className="bg-gray-100 min-h-[60vh] p-4 rounded">
 
                     {/* Breadcrumb */}
                     <nav className="text-sm text-gray-600">
-                        <Link to="/home" className="hover:underline">Home</Link> 
+                        <Link to="/home" className="hover:underline">Home</Link>
                         <span className="mx-2">/</span>
                         {categoryParam ? (
                             <>
@@ -113,16 +125,40 @@ function SingleProduct() {
                         <span className="font-medium">{product?.title ?? "Product"}</span>
                     </nav>
 
-                    <div className="bg-white p-6 rounded-lg shadow-md flex flex-col sm:flex-row gap-6">
+                    <div className="bg-white p-1 rounded-lg shadow-md flex flex-col sm:flex-row gap-6">
                         {loading && <p className="text-center text-gray-500">Loading...</p>}
                         {error && <p className="text-center text-red-500">{error}</p>}
                         {!loading && !error && product && (
-                            <>
+                            <div key={product.id}
+                                 className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-default">
                                 <img src={product.image} alt={product.title} className="w-full sm:w-1/3 h-64 object-contain" />
                                 <div className="flex-1">
                                     <h2 className="text-2xl font-bold mb-3">{product.title}</h2>
                                     <p className="text-gray-600 mb-4">{product.description}</p>
                                     <p className="text-blue-600 font-bold text-lg">{format(product.price)}</p>
+                                    <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
+                                          key={product.id} id="group_categories">
+                                                <div className="flex text-green-500">
+
+                                                    {/* Full stars */}
+                                                    {Array(fullStars).fill(0).map((_, i) => (
+                                                        <StarIcon key={`full-${i}`} className="h-5 w-5"/>
+                                                    ))}
+
+                                                    {/* Half star: heroicons doesn’t have exact half, so use outline for half effect or custom */}
+                                                    {hasHalfStar && (
+                                                        <StarIcon className="h-5 w-5 text-green-300 relative"/>
+                                                    )}
+
+                                                    {/* Empty stars */}
+                                                    {Array(emptyStars).fill(0).map((_, i) => (
+                                                        <StarOutlineIcon key={`empty-${i}`} className="h-5 w-5"/>
+                                                    ))}
+                                                </div>
+
+                                        {/* Numeric rating */}
+                                        <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                    </span>
                                     <div className="mt-4 flex gap-2">
                                         <button onClick={handleAddToCart} disabled={disabled} className={`px-4 py-2 rounded-lg text-white font-semibold transition ${
                                                 disabled
@@ -134,7 +170,7 @@ function SingleProduct() {
                                         <button onClick={handleBack} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">← Back</button>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                     {notification && (

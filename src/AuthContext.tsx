@@ -21,7 +21,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const login = (user: User[]) => {
         // Ensure user object is valid
-        if (!user || user.length === 0) return;
+        if (!user) return;
         const fakeToken = "token-" + user[0].id;
         setUser(user);
         setToken(fakeToken);

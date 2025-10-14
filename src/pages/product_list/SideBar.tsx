@@ -13,6 +13,7 @@ function SideBar({ children, title }: Props) {
     const location = useLocation();
     const [cartOpen, setCartOpen] = useState(false);
     const { user } = useAuth(); // Get logged-in User
+    const [close, setClose] = useState(false);
     const [open, setOpen] = useState<boolean>(() => {
         const saved = localStorage.getItem("sidebar-open"); // Load From LocalStorage So It Remembers The Last State
         return saved ? JSON.parse(saved) : true;    // Open By Default
@@ -21,6 +22,7 @@ function SideBar({ children, title }: Props) {
     // Store In LocalStorage When Toggled
     useEffect(() => {
         localStorage.setItem("sidebar-open", JSON.stringify(open));
+        setClose(false);
     }, [open]);
 
     const handleLogout = () => {
@@ -76,12 +78,12 @@ function SideBar({ children, title }: Props) {
                         <a onClick={() => GoToCategory("home")} className="text-base font-bold text-gray-600 hover:text-gray-900 uppercase dark:text-gray-400 cursor-pointer">
                             <span className="ms-3">Menu</span>
                         </a>
-                        {/* <button onClick={() => setOpen(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <button onClick={() => setOpen(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
                             <svg aria-label="Close Menu" aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
                             </svg>
                             <span className="sr-only">Close menu</span>
-                        </button> */}
+                        </button>
                     </div>
 
                     {/* Menu list */}
@@ -128,28 +130,25 @@ function SideBar({ children, title }: Props) {
                     </nav>
                 </aside>
 
-                {/* MOBILE overlay only (lg:hidden) */}
-                {open && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden pointer-events-none"></div>   // clicking overlay closes the sidebar
-                )}
-
                 {/* Header — fixed and will shift on desktop when the sidebar is open */}
                 <header
                     className={`fixed top-0 z-20 flex items-center justify-between px-4 py-3 bg-gray-100 shadow transition-all duration-300 ${
                         open ? "lg:left-64 lg:w-[calc(100%-16rem)]" : "left-0 w-full"
                     }`} >
 
-                    {/* Button to open drawer */}
-                    <div className="flex items-center gap-3">
-                        <button onClick={() => setOpen((s) => !s)} className="inline-flex items-center justify-center p-2 rounded-md bg-blue-600 text-white hover:bg-blue-900 focus:outline-none cursor-pointer" aria-expanded={open} aria-controls="sidebar">
-                            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-align-left">
-                                <line x1="17" y1="10" x2="3" y2="10"></line>
-                                <line x1="21" y1="6" x2="3" y2="6"></line>
-                                <line x1="21" y1="14" x2="3" y2="14"></line>
-                                <line x1="17" y1="18" x2="3" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
+                    {/* Button to open sidebar */}
+                    {close == false && open == false && (
+                        <div className="flex items-center gap-3">
+                            <button onClick={() => setOpen((s) => !s)} className="inline-flex items-center justify-center p-2 rounded-md bg-blue-600 text-white hover:bg-blue-900 focus:outline-none cursor-pointer" aria-expanded={open} aria-controls="sidebar">
+                                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-align-left">
+                                    <line x1="17" y1="10" x2="3" y2="10"></line>
+                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                    <line x1="17" y1="18" x2="3" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    )}
                     <h3 className="flex-1 text-center text-xl font-bold cursor-default">{title}</h3>
                     <div className="flex items-center gap-2 mx-18">
 
@@ -159,18 +158,18 @@ function SideBar({ children, title }: Props) {
                 </header>
 
                 {/* Main content area — will be pushed right on large screens when open */}
-                <main className={`pt-16 transition-all duration-300 ${open ? "lg:ml-64" : "lg:ml-0"}`}>
+                <main className={`pt-12 transition-all duration-300 ${open ? "lg:ml-62" : "lg:ml-0"}`}>
 
                     {/* Only show if NOT on login */}
                     {location.pathname !== "/login" && (
-                        <div className="fixed top-3 right-3 z-50">
+                        <div className="fixed top-2 right-3 z-50">
                             <button onClick={() => setCartOpen(true)} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer">Go to Cart</button>
                         </div>
                     )}
 
                     {/* Cart Modal */}
                     <CartPopup isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-                    <div className="p-6">{children}</div>
+                    <div className="p-3">{children}</div>
                 </main>
             </div>
         </>

@@ -20,9 +20,17 @@ export const updateProduct = (id: number, product: object) => api.put(`/products
 
 // Auth Calls
 export const loginUser = async (username: string, password: string) => {
-    if (username && password) {
+    try {
+        if (!username || !password) return null;
         const res = await authApi.get(`/users?username=${username}&password=${password}`);
-        return res.data; // First matching user or undefined
+        if (res.data.length > 0) {  // If any matching user is found, return the first one
+            return res.data;
+        } else {
+            return null; // invalid credentials
+        }
+    } catch (err) {
+        console.error("Login error:", err);
+        return null;
     }
 };
 

@@ -5,6 +5,8 @@ import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import CountDown from "./CountDown";
 import { useCurrency } from "../../hooks/useCurrency";
+import { StarIcon } from '@heroicons/react/24/solid';
+import { StarIcon as StarOutlineIcon } from '@heroicons/react/24/outline';
 
 interface Product {
     id: number;
@@ -71,7 +73,7 @@ function HomePage() {
         slidestoshow: 1,
         slidestoscroll: 1,
         arrows: false,
-        pauseOnHover: true, // Add this line to prevent pausing on hover
+        pauseOnHover: false, // Add this line to prevent pausing on hover
         fade: true,
     };
 
@@ -83,7 +85,7 @@ function HomePage() {
             navigate(`/products/${product.id}`);
         }
     };
-    
+
     return (
         <>
             <SideBar title="My Ecommerce - Home">
@@ -102,7 +104,7 @@ function HomePage() {
                             ))}
                         </Slider>
                     </div>
-                    
+
                     {/* Featured Categories */}
                     <section>
                         <h2 className="text-xl font-bold mb-4">Featured Categories</h2>
@@ -124,14 +126,45 @@ function HomePage() {
                             <p className="text-gray-700 dark:text-gray-300">Loading...</p>
                         ) : (
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                {randomProducts.map((p) => (
-                                    <div key={p.id} onClick={() => openProductPage(p)} className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
-                                        <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto" />
-                                        <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
-                                        <p className="text-blue-600 font-bold">{format(p.price)} /-</p>
-                                        <span className="text-md text-yellow-600 font-semibold">Rating: {p.rating?.rate}</span>
-                                    </div>
-                                ))}
+                                {randomProducts.map((p) => {
+                                    const rating = p.rating?.rate || 0;
+                                    const fullStars = Math.floor(rating);        // full stars
+                                    const hasHalfStar = rating % 1 >= 0.5;       // if half star
+                                    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                                    return (
+                                        <>
+                                            <div key={p.id} onClick={() => openProductPage(p)}
+                                                 className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
+                                                <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto"/>
+                                                <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
+                                                <p className="text-blue-600 font-bold">{format(p.price)} /-</p>
+                                                <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
+                                                      key={p.id} id="group_categories">
+                                                    <div className="flex text-green-500">
+
+                                                        {/* Full stars */}
+                                                        {Array(fullStars).fill(0).map((_, i) => (
+                                                            <StarIcon key={`full-${i}`} className="h-5 w-5"/>
+                                                        ))}
+
+                                                        {/* Half star: heroicons doesn’t have exact half, so use outline for half effect or custom */}
+                                                        {hasHalfStar && (
+                                                            <StarIcon className="h-5 w-5 text-green-300 relative"/>
+                                                        )}
+
+                                                        {/* Empty stars */}
+                                                        {Array(emptyStars).fill(0).map((_, i) => (
+                                                            <StarOutlineIcon key={`empty-${i}`} className="h-5 w-5"/>
+                                                        ))}
+                                                    </div>
+
+                                                    {/* Numeric rating */}
+                                                    <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                                </span>
+                                            </div>
+                                        </>
+                                    );
+                                })}
                             </div>
                         )}
                     </section>
@@ -141,26 +174,6 @@ function HomePage() {
                         <h2 className="text-xl font-bold mb-2">⚡ Limited Time Offer!</h2>
                         <p className="text-lg">Flat 30% Off on Electronics - Hurry Up!</p>
                         <p className="mt-2 text-sm text-gray-600">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>
-                    </section>
-
-                    {/* Testimonials */}
-                    <section>
-                        <h2 className="text-xl font-bold mb-4">What our Customers Say</h2>
-                        <div className="space-y-4">
-                            {/* <li className="space-y-2">
-                                {products.map((c) => (
-                                    <span id="group_categories" className="flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer">
-                                        <span>{c.rating?.rate} * "⭐"</span>
-                                    </span>
-                                ))}
-                            </li> */}
-                            <blockquote className="p-4 bg-gray-50 rounded-lg shadow">
-                                ⭐⭐⭐⭐⭐ “Amazing products and fast delivery!” – Narendra.
-                            </blockquote>
-                            <blockquote className="p-4 bg-gray-50 rounded-lg shadow">
-                                ⭐⭐⭐⭐ “Good quality at reasonable prices.” – P K.
-                            </blockquote>
-                        </div>
                     </section>
                 </div>
             </SideBar>
