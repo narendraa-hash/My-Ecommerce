@@ -18,11 +18,12 @@ function OrderSuccess () {
         doc.setFontSize(18);
         doc.text("Order Receipt", 20, 20);
         doc.setFontSize(12);
-        doc.text(`Full Name: ${address.fullName}`, 20, 40);
-        doc.text(`Street: ${address.street}`, 20, 50);
-        doc.text(`City: ${address.city}`, 20, 60);
-        doc.text(`State: ${address.state}`, 20, 70);
-        doc.text(`Zip: ${address.zip}`, 20, 80);
+        doc.text(`Full Name: ${address.email}`, 20, 40);
+        doc.text(`Full Name: ${address.fullName}`, 20, 50);
+        doc.text(`Street: ${address.street}`, 20, 60);
+        doc.text(`City: ${address.city}`, 20, 70);
+        doc.text(`State: ${address.state}`, 20, 80);
+        doc.text(`Zip: ${address.zip}`, 20, 90);
         doc.text(`Payment Method: ${address.paymentMethod === "cod" ? "Cash On Delivery" : "card"}`, 20, 100);
         doc.text(`Total Amount: ${address.total.toFixed(2)}`, 20, 120);
         doc.text("Thank you for shopping with My Ecommerce!", 20, 140);
@@ -35,6 +36,7 @@ function OrderSuccess () {
                 <div className="flex flex-col items-center justify-center h[70vh] bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center">
                     <h1 className="text-2xl font-bold text-green-600 mb-2">🎉 Order Placed Successfully!</h1>
                     <p className="text-gray-600 dark:text-gray-300 mb-6">Thank you for purchase, {address?.fullName}.</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">Thank you for purchase, {address?.email}.</p>
                     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded shadow w-full max-w-md text-left">
                         <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
                         <p><strong>Payment:</strong> {paymentMethod === "cod" ? "Cash On Delivery" : "Card"}</p>

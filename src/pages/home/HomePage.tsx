@@ -48,7 +48,7 @@ function HomePage() {
 
     const categories = [
         {icon: "👕", label: "Men's Clothing", value: "men's clothing", bg: "bg-red-100"},
-        {icon: "👗", label: "Women's Clothing", value: "women's clothing", bg: "bg-pink-100"},
+        {icon: "👗", label: "Women's Clothing", value: "women's clothing", bg: "bg-cyan-100"},
         {icon: "💍", label: "Jewellery", value: "jewelery", bg: "bg-yellow-100"},
         {icon: "📱", label: "Electronics", value: "electronics", bg: "bg-green-100"}
     ];
@@ -170,7 +170,7 @@ function HomePage() {
                     </section>
 
                     {/* Limited Offers */}
-                    <section className="bg-violet-100 p-6 rounded-lg text-center">
+                    <section className="bg-violet-200 p-6 rounded-lg text-center">
                         <h2 className="text-xl font-bold mb-2">⚡ Limited Time Offer!</h2>
                         <p className="text-lg">Flat 30% Off on Electronics - Hurry Up!</p>
                         <p className="mt-2 text-sm text-gray-600">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>

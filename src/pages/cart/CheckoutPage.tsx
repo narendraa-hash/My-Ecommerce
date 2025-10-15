@@ -11,6 +11,7 @@ function CheckoutPage () {
 
     const [address, setAddress] = useState({
         fullName: "",
+        email: "",
         street: "",
         city: "",
         state: "",
@@ -21,7 +22,7 @@ function CheckoutPage () {
 
     const total = cart.reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0);
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
         if (!address.fullName || !address.street) {
             alert("Please fill in all required fields");
             return;
@@ -32,6 +33,21 @@ function CheckoutPage () {
         navigate("/order-success", {
             state: { address, total, paymentMethod } as object,
         });
+        try {
+            await fetch("http://localhost:5000/send-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    toEmail: "recipient@example.com",  // where you want to send the email
+                    subject: "Order Placed Successfully",
+                    message: `Hello ${address.fullName},\n\nYour order totaling $${total.toFixed(
+                        2
+                    )} has been placed successfully!\n\nThank you for shopping with us.`,
+                }),
+            });
+        } catch (err) {
+            console.error("Failed to send email:", err);
+        }
     };
 
     return (
@@ -43,6 +59,7 @@ function CheckoutPage () {
                     <div className="space-y-4 bg-white p-4 rounded shadow">
                         <h2 className="text-lg font-semibold">Shipping Address</h2>
                         <input type="text" className="border p-2 w-full rounded" value={address.fullName} onChange={(e) => setAddress({ ...address, fullName: e.target.value})} placeholder="Full Name" />
+                        <input type="text" className="border p-2 w-full rounded" value={address.email} onChange={(e) => setAddress({ ...address, email: e.target.value})} placeholder="E-Mail" />
                         <input type="text" className="border p-2 w-full rounded" value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value})} placeholder="Street Address" />
                         <input type="text" className="border p-2 w-full rounded" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value})} placeholder="City" />
                         <div className="flex gap-2">

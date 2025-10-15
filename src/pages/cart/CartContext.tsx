@@ -22,6 +22,8 @@ export function CartProvider ({children}: { children: ReactNode }) {
         const saved = localStorage.getItem("cart");
         return saved ? JSON.parse(saved) : [];
     });
+    const location = window.location.pathname;
+    console.log("location", location);
 
     // Save Cart To LocalStorage Whenever It Changes
     useEffect(() => {

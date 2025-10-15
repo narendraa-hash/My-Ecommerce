@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CartPopup from "../cart/CartPopup";
 import { useAuth } from "../../AuthContext";
+import { useCart } from "../cart/CartContext.tsx";
 
 type Props = {
   children?: React.ReactNode;
@@ -18,6 +19,7 @@ function SideBar({ children, title }: Props) {
         const saved = localStorage.getItem("sidebar-open"); // Load From LocalStorage So It Remembers The Last State
         return saved ? JSON.parse(saved) : true;    // Open By Default
     });
+    const { clearCart } = useCart();
 
     // Store In LocalStorage When Toggled
     useEffect(() => {
@@ -26,6 +28,7 @@ function SideBar({ children, title }: Props) {
     }, [open]);
 
     const handleLogout = () => {
+        clearCart()
         navigate("/login");
     };
 
@@ -71,7 +74,7 @@ function SideBar({ children, title }: Props) {
 
                 {/* Sidebar Drawer */}
                 <aside
-                    className={`fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto bg-gray-100 dark:bg-gray-800 transform transition-transform duration-300 ${
+                    className={`fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto bg-gray-100 dark:bg-gray-800 transform transition-transform duration-300 border-x-1 border-gray-300  ${
                         open ? "translate-x-0" : "-translate-x-full"
                     }`}>
                     <div className="flex items-center justify-center mb-4">
@@ -158,7 +161,7 @@ function SideBar({ children, title }: Props) {
                 </header>
 
                 {/* Main content area — will be pushed right on large screens when open */}
-                <main className={`pt-12 transition-all duration-300 ${open ? "lg:ml-62" : "lg:ml-0"}`}>
+                <main className={`pt-16 transition-all duration-300 ${open ? "lg:ml-62" : "lg:ml-0"}`}>
 
                     {/* Only show if NOT on login */}
                     {location.pathname !== "/login" && (

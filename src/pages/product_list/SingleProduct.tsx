@@ -4,8 +4,8 @@ import { getSingleProduct } from "../../api";
 import SideBar from "./SideBar";
 import { useCart } from "../cart/CartContext";
 import { useCurrency } from "../../hooks/useCurrency";
-import {StarIcon} from "@heroicons/react/24/solid";
-import {StarIcon as StarOutlineIcon} from "@heroicons/react/24/outline";
+import { StarIcon } from "@heroicons/react/24/solid";
+import { StarIcon as StarOutlineIcon } from "@heroicons/react/24/outline";
 
 interface Product {
     id: number;
@@ -125,12 +125,12 @@ function SingleProduct() {
                         <span className="font-medium">{product?.title ?? "Product"}</span>
                     </nav>
 
-                    <div className="bg-white p-1 rounded-lg shadow-md flex flex-col sm:flex-row gap-6">
+                    <div className="bg-blue-100 dark:bg-gray-800 w-full rounded-lg shadow-md flex flex-col sm:flex-row gap-6">
                         {loading && <p className="text-center text-gray-500">Loading...</p>}
                         {error && <p className="text-center text-red-500">{error}</p>}
                         {!loading && !error && product && (
                             <div key={product.id}
-                                 className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-default">
+                                 className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-default w-full">
                                 <img src={product.image} alt={product.title} className="w-full sm:w-1/3 h-64 object-contain" />
                                 <div className="flex-1">
                                     <h2 className="text-2xl font-bold mb-3">{product.title}</h2>
