@@ -9,7 +9,7 @@ type Props = {
 };
 
 function CartPopup({ isOpen, onClose }: Props) {
-    const { cart, removeFromCart } = useCart();
+    const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
     const navigate = useNavigate();
     const { format, convert } = useCurrency();
 
@@ -26,7 +26,7 @@ function CartPopup({ isOpen, onClose }: Props) {
 
                         {/* Close */}
                         <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-red-600 cursor-pointer">✕</button>
-                        <h2 className="text-2xl font-bold mb-6 text-center">🛒 Your Cart</h2>
+                        <h2 className="text-2xl font-bold mb-6 text-center cursor-default">🛒 Your Cart</h2>
                         {cart.length === 0 ? (
                             <p className="text-gray-500">Cart is empty.</p>
                         ) : (
@@ -35,15 +35,28 @@ function CartPopup({ isOpen, onClose }: Props) {
                                     {cart.map((item) => (
                                         <li key={item.id} className="flex items-center gap-4 bg-gray-100 p-4 rounded-xl py-2 justify-between border border-gray-300 shadow-md">
                                             <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
-                                            <div className="flex-1">
+                                            <div className="flex-1 cursor-default">
                                                 <h3 className="text-sm font-medium">{item.title}</h3>
-                                                <p className="text-blue-600 font-bold">{format(item.price)} × {(item.quantity || 1)}</p>
+                                                <p className="text-blue-600 font-bold">{format(item.price)}</p>
+                                            </div>
+
+                                            {/* Quantity Controls */}
+                                            <div className="flex items-center gap-2">
+                                                <button onClick={() => decreaseQuantity(item.id)}
+                                                    className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer">
+                                                    -
+                                                </button>
+                                                <span className="w-6 text-center cursor-default">{(item.quantity || 1)}</span>
+                                                <button onClick={() => increaseQuantity(item.id)}
+                                                    className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer">
+                                                    +
+                                                </button>
                                             </div>
                                             <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:underline text-sm cursor-pointer">Remove</button>
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="flex justify-between mt-4 font-bold">
+                                <div className="flex justify-between mt-4 font-bold cursor-default">
                                     <span>Total:</span>
                                     <span>$
                                         {cart

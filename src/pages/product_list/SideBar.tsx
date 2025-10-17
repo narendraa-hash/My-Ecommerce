@@ -62,10 +62,10 @@ function SideBar({ children, title }: Props) {
     };
 
     const categories = [
-        {icon: "👕", label: "Men's Clothing", value: "men's clothing"},
-        {icon: "💍", label: "Jewellery", value: "jewelery"},
-        {icon: "📱", label: "Electronics", value: "electronics"},
-        {icon: "👗", label: "Women's Clothing", value: "women's clothing"},
+        {id: 1, icon: "👕", label: "Men's Clothing", value: "men's clothing"},
+        {id: 5, icon: "💍", label: "Jewellery", value: "jewelery"},
+        {id: 9, icon: "📱", label: "Electronics", value: "electronics"},
+        {id: 16, icon: "👗", label: "Women's Clothing", value: "women's clothing"},
     ];
 
     return (
@@ -113,7 +113,7 @@ function SideBar({ children, title }: Props) {
                             {/* List of Categories */}
                             <li className="space-y-2">
                                 {categories.map((c) => (
-                                    <a onClick={() => GoToCategory(c.value)} id="group_categories"
+                                    <a key={c.id} onClick={() => GoToCategory(c.value)} id="group_categories"
                                        className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer ${
                                            isActive(c.value)
                                                ? "bg-blue-600 text-white font-semibold shadow-md"
@@ -135,7 +135,7 @@ function SideBar({ children, title }: Props) {
 
                 {/* Header — fixed and will shift on desktop when the sidebar is open */}
                 <header
-                    className={`fixed top-0 z-20 flex items-center justify-between px-4 py-3 bg-gray-100 shadow transition-all duration-300 ${
+                    className={`fixed top-0 z-20 flex items-center justify-between px-4 py-3 bg-gray-100 shadow transition-all duration-300 border-b-1 border-gray-300 ${
                         open ? "lg:left-64 lg:w-[calc(100%-16rem)]" : "left-0 w-full"
                     }`} >
 
@@ -164,7 +164,7 @@ function SideBar({ children, title }: Props) {
                 <main className={`pt-16 transition-all duration-300 ${open ? "lg:ml-62" : "lg:ml-0"}`}>
 
                     {/* Only show if NOT on login */}
-                    {location.pathname !== "/login" && (
+                    {location.pathname !== "/login" && location.pathname !== "/order-success" && (
                         <div className="fixed top-2 right-3 z-50">
                             <button onClick={() => setCartOpen(true)} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer">Go to Cart</button>
                         </div>

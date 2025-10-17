@@ -62,7 +62,7 @@ function LoginPage() {
                             <div className="relative">
                                 <input value={password} onChange={(e) => setPassword(e.target.value)}
                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                       id="password" type={showPassword ? "text" : "password"} placeholder="Password"
+                                       id="password" type={showPassword ? "text" : "password"} placeholder="Password" autoComplete="current-password"
                                 />
 
                                 <span onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" id="enable_hide_pass">

@@ -107,7 +107,7 @@ function HomePage() {
 
                     {/* Featured Categories */}
                     <section>
-                        <h2 className="text-xl font-bold mb-4">Featured Categories</h2>
+                        <h2 className="text-xl font-bold mb-4 cursor-default">Featured Categories</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             {categories.map((c) => (
                                 <a key={c.value}
@@ -121,7 +121,7 @@ function HomePage() {
 
                     {/* Top Picks */}
                     <section>
-                        <h2 className="text-xl font-bold mb-4">Top Picks</h2>
+                        <h2 className="text-xl font-bold mb-4 cursor-default">Top Picks</h2>
                         {loading ? (
                             <p className="text-gray-700 dark:text-gray-300">Loading...</p>
                         ) : (
@@ -132,37 +132,35 @@ function HomePage() {
                                     const hasHalfStar = rating % 1 >= 0.5;       // if half star
                                     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
                                     return (
-                                        <>
-                                            <div key={p.id} onClick={() => openProductPage(p)}
-                                                 className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
-                                                <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto"/>
-                                                <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
-                                                <p className="text-blue-600 font-bold">{format(p.price)} /-</p>
-                                                <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
-                                                      key={p.id} id="group_categories">
-                                                    <div className="flex text-green-500">
+                                        <div key={p.id} onClick={() => openProductPage(p)}
+                                             className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
+                                            <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto"/>
+                                            <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
+                                            <p className="text-blue-600 font-bold">{format(p.price)} /-</p>
+                                            <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
+                                                  key={p.id} id="group_categories">
+                                                <div className="flex text-green-500">
 
-                                                        {/* Full stars */}
-                                                        {Array(fullStars).fill(0).map((_, i) => (
-                                                            <StarIcon key={`full-${i}`} className="h-5 w-5"/>
-                                                        ))}
+                                                    {/* Full stars */}
+                                                    {Array(fullStars).fill(0).map((_, i) => (
+                                                        <StarIcon key={`full-${i}`} className="h-5 w-5"/>
+                                                    ))}
 
-                                                        {/* Half star: heroicons doesn’t have exact half, so use outline for half effect or custom */}
-                                                        {hasHalfStar && (
-                                                            <StarIcon className="h-5 w-5 text-green-300 relative"/>
-                                                        )}
+                                                    {/* Half star: heroicons doesn’t have exact half, so use outline for half effect or custom */}
+                                                    {hasHalfStar && (
+                                                        <StarIcon className="h-5 w-5 text-green-300 relative"/>
+                                                    )}
 
-                                                        {/* Empty stars */}
-                                                        {Array(emptyStars).fill(0).map((_, i) => (
-                                                            <StarOutlineIcon key={`empty-${i}`} className="h-5 w-5"/>
-                                                        ))}
-                                                    </div>
+                                                    {/* Empty stars */}
+                                                    {Array(emptyStars).fill(0).map((_, i) => (
+                                                        <StarOutlineIcon key={`empty-${i}`} className="h-5 w-5"/>
+                                                    ))}
+                                                </div>
 
-                                                    {/* Numeric rating */}
-                                                    <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
-                                                </span>
-                                            </div>
-                                        </>
+                                                {/* Numeric rating */}
+                                                <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                            </span>
+                                        </div>
                                     );
                                 })}
                             </div>
@@ -170,7 +168,7 @@ function HomePage() {
                     </section>
 
                     {/* Limited Offers */}
-                    <section className="bg-violet-200 p-6 rounded-lg text-center">
+                    <section className="bg-violet-200 p-6 rounded-lg text-center cursor-default">
                         <h2 className="text-xl font-bold mb-2">⚡ Limited Time Offer!</h2>
                         <p className="text-lg">Flat 30% Off on Electronics - Hurry Up!</p>
                         <p className="mt-2 text-sm text-gray-600">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>

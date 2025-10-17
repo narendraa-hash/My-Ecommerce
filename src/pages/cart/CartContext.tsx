@@ -13,6 +13,8 @@ interface CartContextType {
     addToCart: (product: Product) => void;
     removeFromCart: (id: number) => void;
     clearCart: () => void;
+    increaseQuantity: (id: number) => void;
+    decreaseQuantity: (id: number) => void;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -22,8 +24,6 @@ export function CartProvider ({children}: { children: ReactNode }) {
         const saved = localStorage.getItem("cart");
         return saved ? JSON.parse(saved) : [];
     });
-    const location = window.location.pathname;
-    console.log("location", location);
 
     // Save Cart To LocalStorage Whenever It Changes
     useEffect(() => {
@@ -48,8 +48,24 @@ export function CartProvider ({children}: { children: ReactNode }) {
 
     const clearCart = () => setCart([]);
 
+    const increaseQuantity = (id: number) => {
+        setCart((prev) =>
+            prev.map((p) =>
+                p.id === id ? {...p, quantity: (p.quantity || 1) + 1 } : p
+            )
+        );
+    };
+
+    const decreaseQuantity = (id: number) => {
+        setCart((prev) =>
+            prev.map((p) =>
+                p.id === id ? {...p, quantity: Math.max((p.quantity || 1) - 1, 1) } : p
+            )
+        );
+    };
+
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity }}>
             {children}
         </CartContext.Provider>
     );
