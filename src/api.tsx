@@ -7,7 +7,7 @@ const api = axios.create({
 
 // Auth API (json-server)
 const authApi = axios.create({
-    baseURL: "http://localhost:5001"    // Your json-server
+    baseURL: "http://192.168.0.211:5001"    // Your json-server
 });
 
 // Example API calls

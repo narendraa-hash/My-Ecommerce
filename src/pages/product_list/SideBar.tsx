@@ -163,7 +163,7 @@ function SideBar({ children, title }: Props) {
                 {/* Main content area — will be pushed right on large screens when open */}
                 <main className={`pt-16 transition-all duration-300 ${open ? "lg:ml-62" : "lg:ml-0"}`}>
 
-                    {/* Only show if NOT on login */}
+                    {/* Only show if NOT on login and order-success pages. */}
                     {location.pathname !== "/login" && location.pathname !== "/order-success" && (
                         <div className="fixed top-2 right-3 z-50">
                             <button onClick={() => setCartOpen(true)} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer">Go to Cart</button>
