@@ -4,6 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { CartContext } from "../cart/CartContext.tsx";
+import {useCurrency} from "../../hooks/useCurrency.tsx";
 
 function OrderSuccess () {
     const location = useLocation();
@@ -11,6 +12,7 @@ function OrderSuccess () {
     const { address, total, paymentMethod } = location.state || {};
     const { cart, clearCart } = useContext(CartContext)!;
     const [invoiceNumber, setInvoiceNumber] = useState("");
+    const { convert } = useCurrency();
 
     // Redirect To Home If No Order Data (User Accessed Directly)
     useEffect(() => {
@@ -64,8 +66,8 @@ function OrderSuccess () {
         doc.text("Best Seller", margin, 58);
         doc.text("bestseller@gmail.com", margin, 66);
         doc.text("Best Seller Street", margin, 74);
-        doc.text("Best Seller City", margin, 82);
-        doc.text("Best State", margin, 90);
+        doc.text("Best State", margin, 82);
+        doc.text("Best Seller City", margin, 90);
         doc.text("666666", margin, 98);
 
         // Bill To
@@ -77,8 +79,8 @@ function OrderSuccess () {
         doc.text(`${address.fullName}`, margin + 130, 58);
         doc.text(`${address.email}`, margin + 130, 66);
         doc.text(`${address.street}`, margin + 130, 74);
-        doc.text(`${address.city}`, margin + 130, 82);
-        doc.text(`${address.state}`, margin + 130, 90);
+        doc.text(`${address.state}`, margin + 130, 82);
+        doc.text(`${address.city}`, margin + 130, 90);
         doc.text(`${address.zip}`, margin + 130, 98);
 
         // Line break
@@ -90,14 +92,14 @@ function OrderSuccess () {
         // Order Items Table
         autoTable(doc, {
             startY: 120,
-            head: [["Product", "Qty", "Price", "Subtotal"]],
+            head: [["Product", "Price", "Qty", "Subtotal"]],
             body: cart.map((item) => [
                 String(item.title ?? ""),
+                `${convert(item.price ?? 0).toFixed(2)}`,
                 String(item.quantity ?? 0),
-                `$${(item.price ?? 0).toFixed(2)}`,
-                `$${((item.price ?? 0) * (item.quantity ?? 1)).toFixed(2)}`
+                `${(convert(item.price) * (item.quantity || 1)).toFixed(2)}`
             ], { autoSize: true, overflow: "linebreak", fontSize: 10 } ),
-            foot: [["Grand Total", "", "", `$${total.toFixed(2)}`]],
+            foot: [["Grand Total", "", "", `${total.toFixed(2)}`]],
             theme: "grid",
             headStyles: { fillColor: [200, 80, 150], textColor: 50 },
             margin: { left: margin, right: margin },
@@ -126,8 +128,8 @@ function OrderSuccess () {
                     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded shadow w-full max-w-md text-left cursor-default">
                         <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
                         <p><strong>Payment:</strong> {paymentMethod === "cod" ? "Cash On Delivery" : "Card"}</p>
-                        <p><strong>Total:</strong> ${total?.toFixed(2)}</p>
-                        <p><strong>Ship To:</strong> {address?.street}, {address?.city}, {address?.state} - {address?.zip}</p>
+                        <p><strong>Total: </strong>₹{total?.toFixed(2)}</p>
+                        <p><strong>Ship To:</strong> {address?.street}, {address?.state}, {address?.city},  - {address?.zip}</p>
                     </div>
                     <button onClick={handleDownPDF} className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-900 transition cursor-pointer">📄 Download Receipt (PDF)</button>
                     <button onClick={continueShopping} className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-900 transition cursor-pointer">Continue Shopping</button>
