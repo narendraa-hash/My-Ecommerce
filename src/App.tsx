@@ -6,7 +6,7 @@ import HomePage from "./pages/home/HomePage";
 import CheckoutPage from "./pages/cart/CheckoutPage";
 import OrderSuccess from "./pages/order/OrderSuccess";
 import AuthProvider from "./AuthContext";
-import RegisterPage from "./pages/Login/RegisterPage";
+import SignUpPage from "./pages/Login/SignUpPage.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminAddProduct from "./pages/admin/AdminAddProduct";
 import AdminEditProduct from "./pages/admin/AdminEditProduct";
@@ -21,23 +21,35 @@ function App() {
 
                             {/* Default route → Login Page */}
                             <Route path="/" element={<Navigate to="/login" replace />} />
+
+                            {/* Login Page */}
                             <Route path="/login" element={<LoginPage />} />
-                            <Route path="/register" element={<RegisterPage />} />
+
+                            {/* New User SignUp Page */}
+                            <Route path="/signup" element={<SignUpPage />} />
+
+                            {/* Admin Dashboard */}
                             <Route path="/admin" element={<AdminDashboard />} />
-                            <Route path="/admin/add" element={
-                                <AdminAddProduct
-                                    isNewOpen={false}
-                                    onNewClose={function (): void { throw new Error("Function not implemented."); } }
-                                    onProductAdded={function (): void { throw new Error("Function not implemented."); } }
-                                />
+
+                            {/* Admin Add Product */}
+                            <Route path="/admin/add"
+                                element={
+                                    <AdminAddProduct
+                                        isNewOpen={false}
+                                        onNewClose={function (): void { throw new Error("Function not implemented."); } }
+                                        onProductAdded={function (): void { throw new Error("Function not implemented."); } }
+                                    />
                                 }
                             />
-                            <Route path="/admin/edit/:id" element={
-                                <AdminEditProduct
-                                    isOpen={false}
-                                    onClose={function (): void { throw new Error("Function not implemented."); } }
-                                    product={undefined} onProductUpdated={function (): void { throw new Error("Function not implemented."); } }
-                                />
+
+                            {/* Admin Edit Product */}
+                            <Route path="/admin/edit/:id"
+                                element={
+                                    <AdminEditProduct
+                                        isOpen={false}
+                                        onClose={function (): void { throw new Error("Function not implemented."); } }
+                                        product={undefined} onProductUpdated={function (): void { throw new Error("Function not implemented."); } }
+                                    />
                                 }
                             />
 

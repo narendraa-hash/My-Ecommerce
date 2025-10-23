@@ -22,46 +22,60 @@ function CartPopup({ isOpen, onClose }: Props) {
 
                 {/* Popup */}
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] bg-black/30">
-                    <DialogPanel className="bg-white rounded-lg shadow-lg w-[80%] h-[80%] overflow-y-auto relative p-6">
+                    <DialogPanel className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-[80%] h-[80%] overflow-y-auto relative p-6">
 
                         {/* Close */}
-                        <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-red-600 cursor-pointer">✕</button>
-                        <h2 className="text-2xl font-bold mb-6 text-center cursor-default">🛒 Your Cart</h2>
+                        <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-red-600 cursor-pointer dark:text-white">✕</button>
+                        <h2 className="text-2xl font-bold mb-6 text-center cursor-default text-gray-900 dark:text-white">🛒 Your Cart</h2>
                         {cart.length === 0 ? (
-                            <p className="text-gray-500">Cart is empty.</p>
+                            <p className="text-gray-500 dark:text-white">Cart is empty.</p>
                         ) : (
                             <>
                                 <ul className="space-y-2">
                                     {cart.map((item) => (
-                                        <li key={item.id} className="flex items-center gap-4 bg-gray-100 p-4 rounded-xl py-2 justify-between border border-gray-300 shadow-md">
+                                        <li key={item.id} className="flex items-center gap-4 bg-gray-100 p-4 rounded-xl py-2 justify-between border border-gray-300 shadow-md text-gray-900 dark:text-white dark:bg-gray-600">
                                             <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
                                             <div className="flex-1 cursor-default">
                                                 <h3 className="text-sm font-medium">{item.title}</h3>
-                                                <p className="text-blue-600 font-bold">{format(item.price)}</p>
+                                                <p className="text-blue-600 dark:text-white font-bold">{format(item.price)}</p>
                                             </div>
 
                                             {/* Quantity Controls */}
                                             <div className="flex items-center gap-2">
-                                                <button onClick={() => decreaseQuantity(item.id)}
-                                                    className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer">
-                                                    -
-                                                </button>
+                                                {item.quantity !== 1 && (
+                                                    <button onClick={() => decreaseQuantity(item.id)}
+                                                            className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer dark:bg-gray-700">
+                                                        <span>-</span>
+                                                    </button>
+                                                )}
+                                                {item.quantity === 1 && (
+                                                    <button className="px-2 py-1 bg-gray-200 rounded text-sm dark:bg-gray-700">
+                                                        <span>-</span>
+                                                    </button>
+                                                )}
                                                 <span className="w-6 text-center cursor-default">{(item.quantity || 1)}</span>
-                                                <button onClick={() => increaseQuantity(item.id)}
-                                                    className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer">
-                                                    +
-                                                </button>
+                                                {item.quantity !== 5 && (
+                                                    <button onClick={() => increaseQuantity(item.id)}
+                                                            className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer dark:bg-gray-700">
+                                                        <span>+</span>
+                                                    </button>
+                                                )}
+                                                {item.quantity === 5 && (
+                                                    <button className="px-2 py-1 bg-gray-200 rounded text-sm">
+                                                        <span>+</span>
+                                                    </button>
+                                                )}
                                             </div>
-                                            <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:underline text-sm cursor-pointer">Remove</button>
+                                            <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:underline text-sm cursor-pointer dark:text-white">Remove</button>
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="flex justify-between mt-4 font-bold cursor-default">
+                                <div className="flex justify-between mt-4 font-bold cursor-default dark:text-white">
                                     <span>Total:</span>
-                                    <span>$
-                                        {cart
-                                            .reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0)
-                                            .toFixed(2)}
+                                    <span>₹
+                                        {cart .reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0)
+                                            .toFixed(2)
+                                        }
                                     </span>
                                 </div>
                                 {/* Checkout button */}

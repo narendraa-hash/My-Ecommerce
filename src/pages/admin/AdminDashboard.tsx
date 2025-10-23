@@ -74,7 +74,9 @@ function AdminDashboard() {
 
     return (
         <>
-            <SideBar title="Admin Page">
+            <SideBar title="Admin Page" darkMode={false} toggleDark={function (): void {
+                throw new Error("Function not implemented.");
+            }}>
                 <button onClick={() => setCartOpen(true)} className="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-lg mb-2 cursor-pointer">Add New Product</button>
 
                 {/* Add Product Modal */}
@@ -88,7 +90,7 @@ function AdminDashboard() {
                     <p>Loading Product...</p>
                 ) : (
                     <table className="min-w-full border rounded admin_table">
-                        <thead className="bg-gray-200">
+                        <thead className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                             <tr>
                                 <th className="p-2 border">ID</th>
                                 <th className="p-2 border">Title</th>
@@ -97,7 +99,7 @@ function AdminDashboard() {
                                 <th className="p-2 border">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                             {products.map((p) => (
                                 <tr key={p.id}>
                                     <td className="p-2 border">{p.id}</td>

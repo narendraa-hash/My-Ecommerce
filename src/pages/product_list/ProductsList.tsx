@@ -86,7 +86,10 @@ function ProductsList() {
         <>
 
             {/* ... your component's main content ... */}
-            <SideBar title={`My Ecommerce - ${category ? category : "Products"}`}>
+            <SideBar title={`My Ecommerce - ${category ? category : "Products"}`} darkMode={false}
+                     toggleDark={function (): void {
+                         throw new Error("Function not implemented.");
+                     }}>
                 <div className="min-h-[60vh] p-2 rounded space-y-10">
                     {/* Carousel Section */}
                     {!loading && !error && products.length > 0 && (
@@ -121,7 +124,7 @@ function ProductsList() {
                                             <img src={product.image} alt={product.title}
                                                  className="h-40 object-contain mx-auto"/>
                                             <h2 className="text-sm font-semibold mt-3 line-clamp-2">{product.title}</h2>
-                                            <p className="text-blue-600 font-bold mt-2">{format(product.price)} /-</p>
+                                            <p className="text-blue-600 dark:text-white font-bold mt-2">{format(product.price)} /-</p>
                                             <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
                                                   key={product.id} id="group_categories">
                                                 <div className="flex text-green-500">
@@ -143,7 +146,7 @@ function ProductsList() {
                                                 </div>
 
                                                 {/* Numeric rating */}
-                                                <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                                <span className="ml-2 text-sm text-gray-900 dark:text-white">({rating.toFixed(1)})</span>
                                             </span>
                                         </div>
                                     </>

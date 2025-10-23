@@ -34,8 +34,8 @@ export const loginUser = async (username: string, password: string) => {
     }
 };
 
-// Register New Users
-export const registerUser = async (username: string, password: string) => {
+// SignUp New Users
+export const signUpUser = async (username: string, password: string) => {
     const res = await authApi.post("/users", { username, password });
     return res.data;
 };

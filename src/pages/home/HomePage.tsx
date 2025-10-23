@@ -88,7 +88,9 @@ function HomePage() {
 
     return (
         <>
-            <SideBar title="My Ecommerce - Home">
+            <SideBar title="My Ecommerce - Home" darkMode={false} toggleDark={function (): void {
+                throw new Error("Function not implemented.");
+            }}>
                 <div className="space-y-10">
 
                     {/* Hero Banner */}
@@ -110,8 +112,8 @@ function HomePage() {
                         <h2 className="text-xl font-bold mb-4 cursor-default">Featured Categories</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             {categories.map((c) => (
-                                <a key={c.value}
-                                    className={`${c.bg} p-6 rounded-lg text-center cursor-pointer hover:scale-105 transition`} onClick={() => navigate(`/products/${c.value}`)}>
+                                <a key={c.value} onClick={() => navigate(`/products/${c.value}`)}
+                                    className={`${c.bg} p-6 rounded-lg text-center cursor-pointer hover:scale-105 transition text-gray-900 dark:text-white dark:bg-gray-700`}>
                                     <span>{c.icon}</span>
                                     <span className="ms-3">{c.label}</span>
                                 </a>
@@ -168,10 +170,10 @@ function HomePage() {
                     </section>
 
                     {/* Limited Offers */}
-                    <section className="bg-violet-200 p-6 rounded-lg text-center cursor-default">
+                    <section className="bg-violet-200 p-6 rounded-lg text-center cursor-default text-gray-900 dark:text-white dark:bg-gray-700">
                         <h2 className="text-xl font-bold mb-2">⚡ Limited Time Offer!</h2>
                         <p className="text-lg">Flat 30% Off on Electronics - Hurry Up!</p>
-                        <p className="mt-2 text-sm text-gray-600">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>
+                        <p className="mt-2 text-sm">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>
                     </section>
                 </div>
             </SideBar>

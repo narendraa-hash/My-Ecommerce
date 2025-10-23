@@ -3,10 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CartPopup from "../cart/CartPopup";
 import { useAuth } from "../../AuthContext";
 import { useCart } from "../cart/CartContext.tsx";
+import DarkModeToggle from "../../DarkModeToggle.tsx";
 
 type Props = {
-  children?: React.ReactNode;
-  title?: string;
+    children?: React.ReactNode;
+    title?: string;
+    darkMode: boolean
+    toggleDark: () => void
 };
 
 function SideBar({ children, title }: Props) {
@@ -20,6 +23,13 @@ function SideBar({ children, title }: Props) {
         return saved ? JSON.parse(saved) : true;    // Open By Default
     });
     const { clearCart } = useCart();
+    const [darkMode, setDarkMode] = useState<boolean>(() => {
+        // Load from localStorage (if set previously)
+        const saved = localStorage.getItem("dark");
+        return saved ? JSON.parse(saved) : false;
+    });
+
+    const toggleDark = () => setDarkMode((prev) => !prev);
 
     // Store In LocalStorage When Toggled
     useEffect(() => {
@@ -83,8 +93,8 @@ function SideBar({ children, title }: Props) {
                             open ? "translate-x-0" : "-translate-x-full"
                         }`}>
                         <div className="flex items-center justify-center mb-4">
-                            <a onClick={() => GoToCategory("home")} className="text-base font-bold text-gray-600 hover:text-gray-900 uppercase dark:text-gray-400 cursor-pointer">
-                                <span className="ms-3">Menu</span>
+                            <a onClick={() => GoToCategory("home")} className="font-bold text-gray-900 hover:text-gray-400 uppercase dark:text-white dark:hover:bg-gray-700 cursor-pointer">
+                                <span>Menu</span>
                             </a>
                             <button onClick={() => setOpen(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
                                 <svg aria-label="Close Menu" aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -141,7 +151,7 @@ function SideBar({ children, title }: Props) {
 
                 {/* Header — fixed and will shift on desktop when the sidebar is open */}
                 <header
-                    className={`fixed top-0 z-20 flex items-center justify-between px-4 py-3 bg-gray-100 shadow transition-all duration-300 border-b-1 border-gray-300 ${
+                    className={`fixed top-0 z-20 flex items-center justify-between px-4 py-3 bg-gray-100 shadow transition-all duration-300 border-b-1 border-gray-300 text-gray-900 dark:text-white dark:bg-gray-700 ${
                         open ? "lg:left-64 lg:w-[calc(100%-16rem)]" : "left-0 w-full"
                     }`} >
 
@@ -158,8 +168,13 @@ function SideBar({ children, title }: Props) {
                             </button>
                         </div>
                     )}
-                    <h3 className="flex-1 text-center text-xl font-bold cursor-default">{title}</h3>
-                    <div className="flex items-center gap-2 mx-18">
+                    <h3 className="flex-1 text-center text-xl font-bold cursor-default dark:text-white dark:bg-gray-700">{title}</h3>
+
+                    {/* Add DarkModeToggle to the right side */}
+                    <div className="flex items-center gap-2">
+                        <DarkModeToggle darkMode={darkMode} toggleDark={toggleDark} />
+                    </div>
+                    <div className="flex items-center gap-2 mx-10">
 
                         {/* placeholder for right side — keep header balanced */}
                         <div style={{ width: 36 }}></div>
@@ -169,12 +184,16 @@ function SideBar({ children, title }: Props) {
                 {/* Main content area — will be pushed right on large screens when open */}
                 <main className={`pt-16 transition-all duration-300 ${open && location.pathname !== "/order-success" ? "lg:ml-62" : "lg:ml-0"}`}>
 
+
+
                     {/* Only show if NOT on login and order-success pages. */}
-                    {location.pathname !== "/login" && location.pathname !== "/order-success" && (
+                    {location.pathname !== "/login" && location.pathname !== "/order-success" && location.pathname !== "/checkout" && (
                         <div className="fixed top-2 right-3 z-50">
-                            <button onClick={() => setCartOpen(true)} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer">Go to Cart</button>
+                            <button onClick={() => setCartOpen(true)} className="bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 cursor-pointer text-sm font-medium">Go to Cart</button>
                         </div>
                     )}
+
+
 
                     {/* Cart Modal */}
                     <CartPopup isOpen={cartOpen} onClose={() => setCartOpen(false)} />

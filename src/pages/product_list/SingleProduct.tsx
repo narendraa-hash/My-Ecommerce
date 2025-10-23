@@ -104,11 +104,14 @@ function SingleProduct() {
 
     return (
         <>
-            <SideBar title={`My Ecommerce - ${product?.title ?? "Product"}`}>
-                <div className="bg-gray-100 min-h-[60vh] p-4 rounded">
+            <SideBar title={`My Ecommerce - ${product?.title ?? "Product"}`} darkMode={false}
+                     toggleDark={function (): void {
+                         throw new Error("Function not implemented.");
+                     }}>
+                <div className="bg-gray-100 min-h-[60vh] p-4 rounded text-gray-900 dark:text-white dark:bg-gray-700">
 
                     {/* Breadcrumb */}
-                    <nav className="text-sm text-gray-600">
+                    <nav className="text-sm text-gray-600 dark:text-white">
                         <Link to="/home" className="hover:underline">Home</Link>
                         <span className="mx-2">/</span>
                         {categoryParam ? (
@@ -130,12 +133,12 @@ function SingleProduct() {
                         {error && <p className="text-center text-red-500">{error}</p>}
                         {!loading && !error && product && (
                             <div key={product.id}
-                                 className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center flex flex-col cursor-default w-full">
+                                 className="bg-blue-100 rounded-lg shadow p-4 text-center flex flex-col cursor-default w-full text-gray-900 dark:text-white dark:bg-gray-700">
                                 <img src={product.image} alt={product.title} className="w-full sm:w-1/3 h-64 object-contain" />
                                 <div className="flex-1">
                                     <h2 className="text-2xl font-bold mb-3">{product.title}</h2>
-                                    <p className="text-gray-600 mb-4">{product.description}</p>
-                                    <p className="text-blue-600 font-bold text-lg">{format(product.price)}</p>
+                                    <p className="text-gray-600 dark:text-white mb-4">{product.description}</p>
+                                    <p className="text-blue-600 dark:text-white font-bold text-lg">{format(product.price)}</p>
                                     <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
                                           key={product.id} id="group_categories">
                                                 <div className="flex text-green-500">
@@ -157,7 +160,7 @@ function SingleProduct() {
                                                 </div>
 
                                         {/* Numeric rating */}
-                                        <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                        <span className="ml-2 text-sm text-gray-600 dark:text-white">({rating.toFixed(1)})</span>
                                     </span>
                                     <div className="mt-4 flex gap-2">
                                         <button onClick={handleAddToCart} disabled={disabled} className={`px-4 py-2 rounded-lg text-white font-semibold transition ${
@@ -174,7 +177,7 @@ function SingleProduct() {
                         )}
                     </div>
                     {notification && (
-                        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                        <div className="fixed left-1/2 -translate-x-1/2 -translate-y-1/2
                                         bg-green-600 text-white text-sm px-6 py-3 rounded-lg 
                                         shadow-lg z-[9999] animate-fade-in">
                             Product added to cart

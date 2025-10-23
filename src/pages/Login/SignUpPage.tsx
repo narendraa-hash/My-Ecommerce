@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
-import { loginUser } from "../../api";
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'; // Or solid, depending on your preference
+import { checkUsernameExists, signUpUser } from "../../api";
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';    // Or solid, depending on your preference
 
-function LoginPage() {
+
+function signUpPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -18,22 +19,27 @@ function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const user = await loginUser(username, password);
         if (!username && !password) {
-            setError("Please enter username and password.");
+            setError("Both fields are required.");
+            return;
         }
-
-        // login check
         try {
-            if (user && user.length > 0) {
-                login(user);    // save to context + localStorage
-                navigate("/home");
-            } else {
-                setError("Invalid username or password");
+            // Check if the username already exists
+            const existUser = await checkUsernameExists(username);
+            if (existUser) {
+                setError("Username already taken. Choose another.");
+                return;
             }
-        } catch (err) {
+
+            // Create a new User
+            const newUser = await signUpUser(username, password);
+            if (newUser) {
+                login(newUser); // auto-login after registration
+                navigate("/home");
+            }
+        } catch(err) {
             console.error("API Error:", err);
-            setError("Login failed. Please try again.");
+            setError("Registration failed. Try again.");
         }
     };
 
@@ -44,28 +50,27 @@ function LoginPage() {
                 {/* Header */}
                 <header className="fixed top-0 left-0 w-full bg-white shadow p-4 text-center text-xl font-bold z-10">My Ecommerce</header>
 
-                {/* Main content */}
+                {/* Main Content */}
                 <main className="flex-grow bg-blue-500 flex items-center justify-center">
-
-                    {/* Card */}
                     <div className="bg-white w-full max-w-sm rounded-2xl shadow-lg p-8">
-                        <h2 className="text-2xl font-semibold text-center mb-6" id="login">Login</h2>
+                        <h2 className="text-2xl font-semibold text-center mb-6" id="sign_up">SignUp</h2>
                         <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
 
                             {/* Username */}
                             <input value={username} onChange={(e) => setUsername(e.target.value)}
+                                   type="text"
                                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                   id="user_name" type="text" placeholder="Username"
-                            autoComplete="username" autoFocus />
+                                   placeholder="Username" id="username"
+                            autoComplete="username" autoFocus/>
 
                             {/* Password */}
                             <div className="relative">
-                                <input value={password} onChange={(e) => setPassword(e.target.value)}
+                                <input value={password}
+                                       onChange={(e) => setPassword(e.target.value)}
+                                       type={showPassword ? "text" : "password"}
                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                       id="password" type={showPassword ? "text" : "password"} placeholder="Password" autoComplete="current-password"
-                                />
-
-                                <span onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" id="enable_hide_pass">
+                                       placeholder="Password" id="password"/>
+                                <span onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
                                     {showPassword ? (
                                         <EyeSlashIcon className="h-5 w-5 text-gray-400" id="hide_pass" />
                                     ) : (
@@ -74,14 +79,11 @@ function LoginPage() {
                                 </span>
                             </div>
 
-                            {/* Error Message */}
                             {error && <p className="text-red-500 text-sm">{error}</p>}
-
-                            {/* Submit Button */}
-                            <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer" id="sign_in">Sign In</button>
+                            <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer" id="create_account">Create Account</button>
                         </form>
-                        <p className="mt-4 text-center text-sm cursor-default">Create New User?{" "}
-                            <span className="text-blue-600 cursor-pointer" onClick={() => navigate("/signup")}>Sign Up</span>
+                        <p className="mt-4 text-center text-sm cursor-default">Already have an account?{" "}
+                            <span className="text-blue-600 cursor-pointer" onClick={() => navigate("/login")}>Sign In</span>
                         </p>
                     </div>
                 </main>
@@ -90,4 +92,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default signUpPage;

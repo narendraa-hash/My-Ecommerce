@@ -19,3 +19,24 @@
 body {
   font-style: italic;
 }
+
+/* Light mode dots */
+.slick-dots li button:before {
+    color: #01172e; /* gray-400 */
+}
+
+/* Light mode active dot */
+.slick-dots li.slick-active button:before {
+    color: #01010c; /* indigo-600 */
+}
+
+/* Dark mode dots */
+.dark .slick-dots li button:before {
+    color: #a8b9d1; /* gray-300 */
+}
+
+/* Dark mode active dot */
+.dark .slick-dots li.slick-active button:before {
+    color: white; /* white */
+}
+

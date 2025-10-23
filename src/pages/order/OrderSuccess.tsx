@@ -120,7 +120,9 @@ function OrderSuccess () {
 
     return (
         <>
-            <SideBar title="Order Success">
+            <SideBar title="Order Success" darkMode={false} toggleDark={function (): void {
+                throw new Error("Function not implemented.");
+            }}>
                 <div className="flex flex-col items-center justify-center h[70vh] bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center">
                     <h1 className="text-2xl font-bold text-green-600 mb-2 cursor-default">🎉 Order Placed Successfully!</h1>
                     <p className="text-gray-600 dark:text-gray-300 mb-6 cursor-default">Thank you for purchase, {address?.fullName}.</p>
