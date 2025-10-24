@@ -111,7 +111,7 @@ function ProductsList() {
                     {loading && <p className="text-center text-gray-500">Loading products...</p>}
                     {error && <p className="text-center text-red-500 font-medium">{error}</p>}
                     {!loading && !error && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center items-center text-center text-gray-900 dark:text-white select-none user-select-none cursor-default space-y-6">
                             {products.map((product) => {
                                 const rating = product.rating?.rate || 0;
                                 const fullStars = Math.floor(rating);        // full stars
@@ -124,7 +124,7 @@ function ProductsList() {
                                             <img src={product.image} alt={product.title}
                                                  className="h-40 object-contain mx-auto"/>
                                             <h2 className="text-sm font-semibold mt-3 line-clamp-2">{product.title}</h2>
-                                            <p className="text-blue-600 dark:text-white font-bold mt-2">{format(product.price)} /-</p>
+                                            <p className="text-blue-600 dark:text-blue-400 font-bold mt-2">{format(product.price)} /-</p>
                                             <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
                                                   key={product.id} id="group_categories">
                                                 <div className="flex text-green-500">

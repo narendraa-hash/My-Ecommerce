@@ -138,7 +138,7 @@ function SingleProduct() {
                                 <div className="flex-1">
                                     <h2 className="text-2xl font-bold mb-3">{product.title}</h2>
                                     <p className="text-gray-600 dark:text-white mb-4">{product.description}</p>
-                                    <p className="text-blue-600 dark:text-white font-bold text-lg">{format(product.price)}</p>
+                                    <p className="text-blue-600 dark:text-blue-400 font-bold text-lg">{format(product.price)}</p>
                                     <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
                                           key={product.id} id="group_categories">
                                                 <div className="flex text-green-500">

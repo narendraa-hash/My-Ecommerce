@@ -42,6 +42,6 @@ export const signUpUser = async (username: string, password: string) => {
 
 // Check if a user already exists
 export const checkUsernameExists = async (username: string) => {
-    const res = await axios.get(`http://localhost:5001/users?username=${username}`);
+    const res = await axios.get(`http://192.168.0.211:5001/users?username=${username}`);
     return res.data.length > 0; // True if a username exists
 };

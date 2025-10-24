@@ -111,10 +111,12 @@ function CheckoutPage () {
     // Limit zip code to 6 digits
     const limit = 6;
     const handleNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const zipValue = e.target.value;
-        const zipValid = /^[a-zA-Z]/;
-        if (!zipValid.test(zipValue)) {
-            setAddress({ ...address, zip: zipValue.slice(0, limit) });
+        const value = e.target.value;
+        const isNumeric = /^[0-9]*$/.test(value); // Allow an empty string
+
+        // Only update the state if the new value is numeric and within the length limit
+        if (isNumeric && value.length <= limit) {
+            setAddress({ ...address, zip: value });
         }
     };
 
@@ -155,10 +157,11 @@ function CheckoutPage () {
             <SideBar title="Checkout" darkMode={false} toggleDark={function (): void {
                 throw new Error("Function not implemented.");
             }}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 p-4 gap-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg text-gray-900
+                    dark:text-white text-md font-medium cursor-default text-sm leading-relaxed">
 
                     {/* Address Form */}
-                    <div className="space-y-4 bg-white p-4 rounded shadow text-gray-900 dark:text-white dark:bg-gray-800">
+                    <div className="space-y-4 bg-white p-4 rounded shadow text-gray-900 dark:text-stone-100 dark:bg-gray-600/20">
                         <h2 className="text-lg font-bold cursor-default">Shipping Address</h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -167,7 +170,8 @@ function CheckoutPage () {
                             <div>
                                 <label> Full Name
                                     <input value={address.fullName} onChange={(e) => setAddress({ ...address, fullName: e.target.value})} type="text" placeholder="Enter your full name"
-                                           className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-300 dark:text-white" aria-label={"Full Name"}
+                                           className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                                           placeholder:text-gray-300 dark:text-white dark:placeholder:text-gray-500" aria-label={"Full Name"}
                                     />
                                 </label>
                             </div>
@@ -176,7 +180,8 @@ function CheckoutPage () {
                             <div>
                                 <label> Email Address
                                     <input value={address.email} onChange={(handleChange)} type="email" placeholder="Enter your email address"
-                                           className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-300 dark:text-white" aria-label={"Email Address"} aria-describedby="email-error"
+                                           className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                                           placeholder:text-gray-300 dark:text-white dark:placeholder:text-gray-500" aria-label={"Email Address"} aria-describedby="email-error"
                                     />
                                     {!address.email? "" : error && <p style={{color: 'red'}}>{error}</p>}
                                 </label>
@@ -186,7 +191,8 @@ function CheckoutPage () {
                             <div className="col-span-2">
                                 <label> Street Address
                                     <textarea value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value})} placeholder="Enter your street address"
-                                              className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-300 dark:text-white" aria-label={"Street Address"} aria-describedby="street-error">
+                                              className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                                              placeholder:text-gray-300 dark:text-white dark:placeholder:text-gray-500" aria-label={"Street Address"} aria-describedby="street-error">
                                     </textarea>
                                 </label>
                             </div>
@@ -197,7 +203,8 @@ function CheckoutPage () {
                                 <div className="w-full md:w-1/2">
                                     <label> State
                                         <select value={address.state} onChange={(e) => handleStateChange(e.target.value)}
-                                            className="shadow appearance-none border border-gray-500 p-2 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-300 dark:text-white dark:bg-gray-800"
+                                            className="shadow appearance-none border border-gray-500 p-2 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                                            dark:text-white dark:placeholder:text-gray-500 dark:bg-gray-800 cursor-pointer" aria-label={"State"} aria-describedby="state-error"
                                         >
                                             <option value="">Select State</option>
                                             {Object.keys(countries.India).map((state) => (
@@ -213,7 +220,8 @@ function CheckoutPage () {
                                 <div className="w-full md:w-1/2">
                                     <label> City
                                         <select value={address.city} onChange={(e) => handleCityChange(e.target.value)}
-                                            className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-300 dark:text-white dark:bg-gray-800"
+                                            className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                                            dark:text-gray-300 dark:placeholder:text-gray-500 dark:bg-gray-800 cursor-pointer" aria-label={"City"} aria-describedby="city-error"
                                         >
                                             <option value="">Select City</option>
                                             {availableCities.map((c) => (
@@ -229,7 +237,8 @@ function CheckoutPage () {
                                 <div className="w-full md:w-1/2">
                                     <label> Zip Code
                                         <input value={address.zip} onChange={handleNumChange} type="text"
-                                               className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-300 dark:text-white" aria-label={"Zip Code"} aria-describedby="zip-error"
+                                               className="shadow appearance-none border border-gray-500 p-2 w-full rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                                               placeholder:text-gray-300 dark:text-white dark:placeholder:text-gray-500" aria-label={"Zip Code"} aria-describedby="zip-error" placeholder="Enter your zip code"
                                         />
                                     </label>
                                 </div>
@@ -239,7 +248,8 @@ function CheckoutPage () {
 
                         {/* Payment */}
                         <h2 className="text-lg font-bold cursor-default">Payment Method</h2>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 cursor-default text-sm font-medium text-md text-gray-900 dark:text-white dark:bg-gray-600/20 p-4 rounded shadow-md border-t
+                            border-gray-200 dark:border-gray-700">
                             <div>
                                 <input value="cod" onChange={(e) => setPaymentMethod(e.target.value)} type="radio"
                                        checked={paymentMethod == "cod"} className="mr-1 cursor-pointer"
@@ -256,19 +266,20 @@ function CheckoutPage () {
                     </div>
 
                     {/* Order Summary */}
-                    <div className="bg-white p-4 rounded shadow text-gray-900 dark:text-white dark:bg-gray-800">
+                    <div className="bg-white p-4 rounded shadow text-gray-900 dark:text-white dark:bg-gray-600/20">
                         <h2 className="text-lg font-bold mb-4 cursor-default">Order Summary</h2>
-                        <ul className="space-y-2 cursor-default">
+                        <ul className="space-y-2 cursor-default text-sm font-medium text-md text-gray-900 dark:text-white dark:bg-gray-600/20 p-4 rounded shadow-md border-t
+                            border-gray-200 dark:border-gray-700">
                             {cart.map((p) => (
-                                <li key={p.id} className="py-2 flex justify-between divide-y divide-gray-200 cursor-default">
+                                <li key={p.id} className="py-2 flex justify-between divide-y divide-gray-200 cursor-default text-sm font-medium text-md">
                                     <span>{p.title} (x{p.quantity})</span>
-                                    <span>{(convert(p.price) * (p.quantity || 1)).toFixed(2)}</span>
+                                    <span className="text-blue-600 dark:text-blue-400">₹{(convert(p.price) * (p.quantity || 1)).toFixed(2)}</span>
                                 </li>
                             ))}
                         </ul>
                         <div className="flex justify-between mt-4 font-bold divide-y cursor-default">
                             <span>Total:</span>
-                            <span>₹{total.toFixed(2)}</span>
+                            <span className="text-blue-600 dark:text-blue-400">₹{total.toFixed(2)} /-</span>
                         </div>
                         <button className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-900 cursor-pointer" onClick={handlePlaceOrder}>Place Order</button>
                     </div>

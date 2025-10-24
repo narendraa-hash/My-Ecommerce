@@ -33,35 +33,36 @@ function CartPopup({ isOpen, onClose }: Props) {
                             <>
                                 <ul className="space-y-2">
                                     {cart.map((item) => (
-                                        <li key={item.id} className="flex items-center gap-4 bg-gray-100 p-4 rounded-xl py-2 justify-between border border-gray-300 shadow-md text-gray-900 dark:text-white dark:bg-gray-600">
+                                        <li key={item.id} className="flex items-center gap-4 bg-gray-100 p-4 rounded-xl py-2 justify-between border border-gray-300 shadow-md text-gray-900
+                                            dark:text-white dark:bg-gray-600">
                                             <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
                                             <div className="flex-1 cursor-default">
                                                 <h3 className="text-sm font-medium">{item.title}</h3>
-                                                <p className="text-blue-600 dark:text-white font-bold">{format(item.price)}</p>
+                                                <p className="text-blue-600 dark:text-blue-400 font-bold">{format(item.price)}</p>
                                             </div>
 
                                             {/* Quantity Controls */}
                                             <div className="flex items-center gap-2">
                                                 {item.quantity !== 1 && (
                                                     <button onClick={() => decreaseQuantity(item.id)}
-                                                            className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer dark:bg-gray-700">
+                                                            className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded font-bold cursor-pointer dark:bg-gray-700">
                                                         <span>-</span>
                                                     </button>
                                                 )}
                                                 {item.quantity === 1 && (
-                                                    <button className="px-2 py-1 bg-gray-200 rounded text-sm dark:bg-gray-700">
+                                                    <button className="px-2 py-1 bg-gray-300/70 rounded text-sm dark:bg-gray-700/70">
                                                         <span>-</span>
                                                     </button>
                                                 )}
                                                 <span className="w-6 text-center cursor-default">{(item.quantity || 1)}</span>
                                                 {item.quantity !== 5 && (
                                                     <button onClick={() => increaseQuantity(item.id)}
-                                                            className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm font-bold cursor-pointer dark:bg-gray-700">
+                                                            className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded font-bold cursor-pointer dark:bg-gray-700">
                                                         <span>+</span>
                                                     </button>
                                                 )}
                                                 {item.quantity === 5 && (
-                                                    <button className="px-2 py-1 bg-gray-200 rounded text-sm">
+                                                    <button className="px-2 py-1 bg-gray-300/70 rounded text-sm dark:bg-gray-700/70">
                                                         <span>+</span>
                                                     </button>
                                                 )}
@@ -70,10 +71,10 @@ function CartPopup({ isOpen, onClose }: Props) {
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="flex justify-between mt-4 font-bold cursor-default dark:text-white">
-                                    <span>Total:</span>
-                                    <span>₹
-                                        {cart .reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0)
+                                <div className="flex justify-between mt-4 font-bold cursor-default">
+                                    <span className="text-gray-800 dark:text-white">Total:</span>
+                                    <span className="text-blue-600 dark:text-blue-400">₹
+                                        {cart.reduce((sum, p) => sum + convert(p.price) * (p.quantity || 1), 0)
                                             .toFixed(2)
                                         }
                                     </span>

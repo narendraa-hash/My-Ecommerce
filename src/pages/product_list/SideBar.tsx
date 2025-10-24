@@ -93,10 +93,12 @@ function SideBar({ children, title }: Props) {
                             open ? "translate-x-0" : "-translate-x-full"
                         }`}>
                         <div className="flex items-center justify-center mb-4">
-                            <a onClick={() => GoToCategory("home")} className="font-bold text-gray-900 hover:text-gray-400 uppercase dark:text-white dark:hover:bg-gray-700 cursor-pointer">
+                            <a onClick={() => GoToCategory("home")} className="font-bold text-gray-900 hover:text-gray-400 uppercase dark:text-white dark:hover:bg-gray-700 cursor-pointer text-xl">
                                 <span>Menu</span>
                             </a>
-                            <button onClick={() => setOpen(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
+                            <button onClick={() => setOpen(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5
+                                absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer transition-all duration-300 ease-in-out transform
+                                hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:focus:ring-gray-600 dark:focus:ring-opacity-50 z-50">
                                 <svg aria-label="Close Menu" aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
                                 </svg>
@@ -113,7 +115,7 @@ function SideBar({ children, title }: Props) {
                                     {user?.[0].username?.toLowerCase() === "admin" && (
                                         <li>
                                             <a onClick={() => GoToCategory("admin")} id="admin"
-                                               className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer ${
+                                               className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-700 transition text-sm font-medium ${
                                                    isActive("admin")
                                                        ? "bg-blue-600 text-white font-semibold shadow-md"
                                                        : "text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-700"
@@ -129,10 +131,10 @@ function SideBar({ children, title }: Props) {
                                 <li className="space-y-2">
                                     {categories.map((c) => (
                                         <a key={c.id} onClick={() => GoToCategory(c.value)} id="group_categories"
-                                           className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer ${
+                                           className={`flex items-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-700 transition font-medium ${
                                                isActive(c.value)
-                                                   ? "bg-blue-600 text-white font-semibold shadow-md"
-                                                   : "text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-700"
+                                                   ? "bg-blue-600 text-white font-semibold shadow-md cursor-default hover:opacity-100 transition duration-300 ease-in-out transform hover:scale-100"
+                                                   : "text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-700 cursor-default hover:opacity-100 transition duration-300 ease-in-out transform hover:scale-100"
                                            }`}>
                                             <span>{c.icon}</span>
                                             <span className="ms-3">{c.label}</span>
@@ -158,7 +160,8 @@ function SideBar({ children, title }: Props) {
                     {/* Button to open sidebar */}
                     {close == false && open == false && location.pathname !== "/order-success" && (
                         <div className="flex items-center gap-3">
-                            <button onClick={() => setOpen((s) => !s)} className="inline-flex items-center justify-center p-2 rounded-md bg-blue-600 text-white hover:bg-blue-900 focus:outline-none cursor-pointer" aria-expanded={open} aria-controls="sidebar">
+                            <button onClick={() => setOpen((s) => !s)} className="inline-flex items-center justify-center p-2 rounded-md bg-blue-600 text-white
+                                hover:bg-blue-900 focus:outline-none cursor-pointer" aria-expanded={open} aria-controls="sidebar">
                                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-align-left">
                                     <line x1="17" y1="10" x2="3" y2="10"></line>
                                     <line x1="21" y1="6" x2="3" y2="6"></line>
@@ -171,7 +174,7 @@ function SideBar({ children, title }: Props) {
                     <h3 className="flex-1 text-center text-xl font-bold cursor-default dark:text-white dark:bg-gray-700">{title}</h3>
 
                     {/* Add DarkModeToggle to the right side */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 dark:text-white dark:bg-gray-700 dark:border-gray-700">
                         <DarkModeToggle darkMode={darkMode} toggleDark={toggleDark} />
                     </div>
                     <div className="flex items-center gap-2 mx-10">
@@ -183,8 +186,6 @@ function SideBar({ children, title }: Props) {
 
                 {/* Main content area — will be pushed right on large screens when open */}
                 <main className={`pt-16 transition-all duration-300 ${open && location.pathname !== "/order-success" ? "lg:ml-62" : "lg:ml-0"}`}>
-
-
 
                     {/* Only show if NOT on login and order-success pages. */}
                     {location.pathname !== "/login" && location.pathname !== "/order-success" && location.pathname !== "/checkout" && (

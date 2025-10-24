@@ -113,7 +113,9 @@ function HomePage() {
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             {categories.map((c) => (
                                 <a key={c.value} onClick={() => navigate(`/products/${c.value}`)}
-                                    className={`${c.bg} p-6 rounded-lg text-center cursor-pointer hover:scale-105 transition text-gray-900 dark:text-white dark:bg-gray-700`}>
+                                    className={`${c.bg} p-6 rounded-lg text-center cursor-pointer hover:scale-105 transition text-gray-900 dark:text-white dark:bg-gray-700 flex items-center justify-center
+                                        flex-col gap-2 ${loading ? "opacity-50" : ""} ${loading ? "cursor-not-allowed" : ""} ${loading ? "pointer-events-none" : ""} ${loading ? "select-none" : ""} ${loading ? "user-select-none" : ""} ${loading ? "user-select-none" : ""}`}
+                                >
                                     <span>{c.icon}</span>
                                     <span className="ms-3">{c.label}</span>
                                 </a>
@@ -135,10 +137,11 @@ function HomePage() {
                                     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
                                     return (
                                         <div key={p.id} onClick={() => openProductPage(p)}
-                                             className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition">
+                                             className="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4 text-center cursor-pointer hover:scale-105 transition flex flex-col gap-2 items-center justify-center
+                                                text-gray-900 dark:text-white select-none user-select-none">
                                             <img src={p.image} alt={p.title} className="h-32 object-contain mx-auto"/>
                                             <h3 className="mt-2 text-sm font-medium dark:text-gray-200">{p.title}</h3>
-                                            <p className="text-blue-600 font-bold">{format(p.price)} /-</p>
+                                            <p className="text-blue-600 dark:text-blue-400 font-bold">{format(p.price)} /-</p>
                                             <span className="flex items-center justify-center w-full p-2 text-left text-gray-900 rounded-lg group cursor-default"
                                                   key={p.id} id="group_categories">
                                                 <div className="flex text-green-500">
@@ -160,7 +163,7 @@ function HomePage() {
                                                 </div>
 
                                                 {/* Numeric rating */}
-                                                <span className="ml-2 text-sm text-gray-600">({rating.toFixed(1)})</span>
+                                                <span className="ml-2 text-sm text-gray-600 dark:text-white">({rating.toFixed(1)})</span>
                                             </span>
                                         </div>
                                     );
@@ -170,7 +173,8 @@ function HomePage() {
                     </section>
 
                     {/* Limited Offers */}
-                    <section className="bg-violet-200 p-6 rounded-lg text-center cursor-default text-gray-900 dark:text-white dark:bg-gray-700">
+                    <section className="bg-violet-200 p-6 rounded-lg text-center cursor-default text-gray-900 dark:text-white dark:bg-gray-700 flex items-center justify-center flex-col gap-2
+                        select-none user-select-none">
                         <h2 className="text-xl font-bold mb-2">⚡ Limited Time Offer!</h2>
                         <p className="text-lg">Flat 30% Off on Electronics - Hurry Up!</p>
                         <p className="mt-2 text-sm">Offer ends in: <CountDown targetDate="2025-10-30T23:59:59" /></p>
